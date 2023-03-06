@@ -8,7 +8,8 @@
 
 [@Hardy(YeonHoKim)](https://github.com/Kim-Yeon-ho) | [@JungHwanLee](https://github.com/LeeJungHwan-Dev) |
 :---|:---
-![Hardy](https://avatars.githubusercontent.com/u/81131715?v=4) | ![JungHwanLee]()
+![Hardy](https://avatars.githubusercontent.com/u/81131715?v=4) | ![JungHwanLee](https://user-images.githubusercontent.com/93726941/223059644-4302e2a6-71a1-474c-916c-b0c7fa762429.JPEG)
+
 
 ## :sparkles: Skills & Tech Stack
 - Swift
