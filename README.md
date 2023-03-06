@@ -6,9 +6,9 @@
 
 ## :people_hugging: Authors
 
-[@Hardy(YeonHoKim)](https://github.com/Kim-Yeon-ho) | [@JungHwanLee](https://github.com/coby5502) |
+[@Hardy(YeonHoKim)](https://github.com/Kim-Yeon-ho) | [@JungHwanLee](https://github.com/LeeJungHwan-Dev) |
 :---|:---
-![Hardy](https://avatars.githubusercontent.com/u/81131715?v=4) | 
+![Hardy](https://avatars.githubusercontent.com/u/81131715?v=4) | ![JungHwanLee]()
 
 ## :sparkles: Skills & Tech Stack
 - Swift
