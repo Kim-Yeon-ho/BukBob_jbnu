@@ -6,10 +6,9 @@
 
 ## :people_hugging: Authors
 
-[@Hardy](https://github.com/Kim-Yeon-ho) | [@Coby](https://github.com/coby5502) | [@Rookie](https://github.com/Rookie0031) | [@PecanPie](https://github.com/PecanPiePOS) | [@Ken](https://github.com/obtusa07) |
-:---|:---|:---|:---|:---
-![Hardy](https://avatars.githubusercontent.com/u/81131715?v=4) | ![Coby](https://avatars.githubusercontent.com/u/57849386?v=4) |  ![Rookie](https://avatars.githubusercontent.com/u/103009135?v=4) |  ![PecanPie](https://avatars.githubusercontent.com/u/89404664?v=4) |![Ken](https://avatars.githubusercontent.com/u/47441965?v=4)
-
+[@Hardy(YeonHoKim)](https://github.com/Kim-Yeon-ho) | [@JungHwanLee](https://github.com/coby5502) |
+:---|:---
+![Hardy](https://avatars.githubusercontent.com/u/81131715?v=4) | 
 
 ## :sparkles: Skills & Tech Stack
 - Swift
