@@ -6,7 +6,7 @@ var now = new Date();
 const EditLog = ((info)=>{
 
     try{
-        fs.appendFile(logPath,now+' => '+info,'utf-8',()=>null);
+        fs.appendFile(logPath,now+' => '+info+'\n','utf-8',()=>null);
     }catch(e){
         console.log(e);
     }
