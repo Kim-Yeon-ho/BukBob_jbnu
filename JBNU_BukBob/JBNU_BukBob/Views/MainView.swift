@@ -17,6 +17,7 @@ struct MainView: View {
             } //VStack
             ScrollView {
                 VStack {
+                    MenuCardView().padding()
                     //식단 메뉴카드
                 }
             } //ScrollView
