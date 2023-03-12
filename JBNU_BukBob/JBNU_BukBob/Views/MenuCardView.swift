@@ -21,10 +21,10 @@ struct MenuCardView: View {
 
                 Spacer()
 
-                isChecking ? Image("starFill").padding()
-                : Image("starNonFill").padding()
+                isChecking ? Image("starFill").padding(.horizontal)
+                : Image("starNonFill").padding(.horizontal)
             }
-            .border(.red)//HStack
+            //HStack
 
             HStack {
                 VStack {
@@ -34,11 +34,11 @@ struct MenuCardView: View {
                             .padding(.horizontal)
                     }
                 }
-                .padding(.vertical)
+//                .padding(.vertical)
                 Spacer()
 
             }
-            .border(.blue)//HStack
+            //HStack
 
         }
         .padding(10)
