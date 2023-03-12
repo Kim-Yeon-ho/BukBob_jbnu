@@ -18,9 +18,7 @@ struct MenuCardView: View {
                 Text("진수당")
                     .font(.system(size: 25, weight: .semibold))
                     .padding(.horizontal)
-
                 Spacer()
-
                 isChecking ? Image("starFill").padding(.horizontal)
                 : Image("starNonFill").padding(.horizontal)
             }
@@ -33,7 +31,6 @@ struct MenuCardView: View {
                             .padding(.horizontal)
                     }
                 }
-                //                .padding(.vertical)
                 Spacer()
             }
             //HStack
@@ -41,8 +38,6 @@ struct MenuCardView: View {
         .padding(10)
         .overlay(RoundedRectangle(cornerRadius: 15)
             .stroke(Color.mainPurple, lineWidth: 5))
-        //        .border(Color.mainPurple, width: 5)
-        //        .cornerRadius(15)
         //VStack
     }
 }
