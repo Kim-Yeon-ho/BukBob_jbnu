@@ -16,6 +16,7 @@
 		10B8FD9829BD9D5700E4457F /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B8FD9729BD9D5700E4457F /* MainView.swift */; };
 		10B8FD9A29BDA62400E4457F /* MenuCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B8FD9929BDA62400E4457F /* MenuCardView.swift */; };
 		10B8FD9E29BDA87800E4457F /* Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B8FD9D29BDA87800E4457F /* Static.swift */; };
+		10B8FDA029BDC15700E4457F /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B8FD9F29BDC15700E4457F /* UIColor+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		10B8FD9729BD9D5700E4457F /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		10B8FD9929BDA62400E4457F /* MenuCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCardView.swift; sourceTree = "<group>"; };
 		10B8FD9D29BDA87800E4457F /* Static.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Static.swift; sourceTree = "<group>"; };
+		10B8FD9F29BDC15700E4457F /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				10B8FD9D29BDA87800E4457F /* Static.swift */,
+				10B8FD9F29BDC15700E4457F /* UIColor+Extension.swift */,
 			);
 			path = Utilites;
 			sourceTree = "<group>";
@@ -175,6 +178,7 @@
 				10B8FD8F29BD9C2700E4457F /* JBNU_BukBob.xcdatamodeld in Sources */,
 				10B8FD9A29BDA62400E4457F /* MenuCardView.swift in Sources */,
 				10B8FD9E29BDA87800E4457F /* Static.swift in Sources */,
+				10B8FDA029BDC15700E4457F /* UIColor+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

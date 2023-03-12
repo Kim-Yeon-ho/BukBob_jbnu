@@ -17,7 +17,7 @@ struct MenuCardView: View {
             VStack {
 
             } //VStack
-        } //VStack
+        }.border(.) //VStack
     }
 }
 
