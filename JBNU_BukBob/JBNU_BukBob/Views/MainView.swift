@@ -18,13 +18,12 @@ struct MainView: View {
         .onAppear {
             setupAppearance()
         }
-//        .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
     }
 
     func setupAppearance() {
         UIPageControl.appearance().currentPageIndicatorTintColor = .mainPurple
         UIPageControl.appearance().pageIndicatorTintColor = UIColor.black.withAlphaComponent(0.2)
-      }
+    }
 }
 
 struct BreakfastView: View {
@@ -35,7 +34,6 @@ struct BreakfastView: View {
                     .font(.system(size: 50, weight: .semibold))
                     .foregroundColor(.mainPurple)
                     .padding()
-
                 Spacer()
                 VStack {
                     Text("03/04 토")
@@ -71,13 +69,11 @@ struct LunchView: View {
                     .font(.system(size: 50, weight: .semibold))
                     .foregroundColor(.mainPurple)
                     .padding()
-
                 Spacer()
                 VStack {
                     Text("03/04 토")
                         .font(.system(size: 35, weight: .medium))
                         .padding(.horizontal)
-
                     Text("07:00 ~ 08:30")
                         .font(.system(size: 20, weight: .medium))
                         .padding(.horizontal)
@@ -107,13 +103,11 @@ struct DinnerView: View {
                     .font(.system(size: 50, weight: .semibold))
                     .foregroundColor(.mainPurple)
                     .padding()
-
                 Spacer()
                 VStack {
                     Text("03/04 토")
                         .font(.system(size: 35, weight: .medium))
                         .padding(.horizontal)
-
                     Text("07:00 ~ 08:30")
                         .font(.system(size: 20, weight: .medium))
                         .padding(.horizontal)

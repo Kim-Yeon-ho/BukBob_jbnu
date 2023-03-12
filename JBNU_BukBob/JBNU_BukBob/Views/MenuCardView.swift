@@ -25,7 +25,6 @@ struct MenuCardView: View {
                 : Image("starNonFill").padding(.horizontal)
             }
             //HStack
-
             HStack {
                 VStack {
                     ForEach (menu, id: \.self) { menu in
@@ -34,18 +33,16 @@ struct MenuCardView: View {
                             .padding(.horizontal)
                     }
                 }
-//                .padding(.vertical)
+                //                .padding(.vertical)
                 Spacer()
-
             }
             //HStack
-
         }
         .padding(10)
         .overlay(RoundedRectangle(cornerRadius: 15)
             .stroke(Color.mainPurple, lineWidth: 5))
-//        .border(Color.mainPurple, width: 5)
-//        .cornerRadius(15)
+        //        .border(Color.mainPurple, width: 5)
+        //        .cornerRadius(15)
         //VStack
     }
 }
