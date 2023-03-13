@@ -33,6 +33,7 @@
                 android:textStyle="bold" />
 
             <ImageButton
+                android:id = "@+id/widgetButton"
                 android:layout_width="35dp"
                 android:layout_height="match_parent"
                 android:layout_marginTop="20dp"

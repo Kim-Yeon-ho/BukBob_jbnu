@@ -47,6 +47,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/FoodListView"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="15dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
