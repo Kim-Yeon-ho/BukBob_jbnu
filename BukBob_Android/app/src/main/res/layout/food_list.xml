@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         >
@@ -26,9 +26,10 @@
         <TextView
             android:id="@+id/FoodDate"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="right"
             android:text="03/04 토"
+            android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="40sp" />
     </LinearLayout>
@@ -41,13 +42,15 @@
         android:textSize="18sp"
         android:textColor="@color/black"
         android:text="07:00 ~ 08:30"
+        android:textStyle="bold"
         android:gravity="right"
+        android:textAlignment="center"
         android:layout_marginRight="20dp"
         />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/FoodListView"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
