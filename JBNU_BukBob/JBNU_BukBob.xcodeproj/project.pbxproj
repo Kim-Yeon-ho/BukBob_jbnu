@@ -17,7 +17,40 @@
 		10B8FD9A29BDA62400E4457F /* MenuCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B8FD9929BDA62400E4457F /* MenuCardView.swift */; };
 		10B8FD9E29BDA87800E4457F /* Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B8FD9D29BDA87800E4457F /* Static.swift */; };
 		10B8FDA029BDC15700E4457F /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B8FD9F29BDC15700E4457F /* Color+Extension.swift */; };
+		10B8FDA829BEC54800E4457F /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10B8FDA729BEC54800E4457F /* WidgetKit.framework */; };
+		10B8FDAA29BEC54800E4457F /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10B8FDA929BEC54800E4457F /* SwiftUI.framework */; };
+		10B8FDAD29BEC54800E4457F /* BukBobWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B8FDAC29BEC54800E4457F /* BukBobWidgetBundle.swift */; };
+		10B8FDAF29BEC54800E4457F /* BukBobWidgetLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B8FDAE29BEC54800E4457F /* BukBobWidgetLiveActivity.swift */; };
+		10B8FDB129BEC54800E4457F /* BukBobWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B8FDB029BEC54800E4457F /* BukBobWidget.swift */; };
+		10B8FDB429BEC54900E4457F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10B8FDB329BEC54900E4457F /* Assets.xcassets */; };
+		10B8FDB629BEC54900E4457F /* BukBobWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 10B8FDB229BEC54800E4457F /* BukBobWidget.intentdefinition */; };
+		10B8FDB729BEC54900E4457F /* BukBobWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 10B8FDB229BEC54800E4457F /* BukBobWidget.intentdefinition */; };
+		10B8FDBA29BEC54900E4457F /* BukBobWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 10B8FDA529BEC54800E4457F /* BukBobWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		10B8FDB829BEC54900E4457F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 10B8FD7729BD9C2600E4457F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 10B8FDA429BEC54800E4457F;
+			remoteInfo = BukBobWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		10B8FDBB29BEC54900E4457F /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				10B8FDBA29BEC54900E4457F /* BukBobWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		10B8FD7F29BD9C2600E4457F /* JBNU_BukBob.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JBNU_BukBob.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -31,6 +64,15 @@
 		10B8FD9929BDA62400E4457F /* MenuCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCardView.swift; sourceTree = "<group>"; };
 		10B8FD9D29BDA87800E4457F /* Static.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Static.swift; sourceTree = "<group>"; };
 		10B8FD9F29BDC15700E4457F /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
+		10B8FDA529BEC54800E4457F /* BukBobWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BukBobWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		10B8FDA729BEC54800E4457F /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		10B8FDA929BEC54800E4457F /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		10B8FDAC29BEC54800E4457F /* BukBobWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BukBobWidgetBundle.swift; sourceTree = "<group>"; };
+		10B8FDAE29BEC54800E4457F /* BukBobWidgetLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BukBobWidgetLiveActivity.swift; sourceTree = "<group>"; };
+		10B8FDB029BEC54800E4457F /* BukBobWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BukBobWidget.swift; sourceTree = "<group>"; };
+		10B8FDB229BEC54800E4457F /* BukBobWidget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = BukBobWidget.intentdefinition; sourceTree = "<group>"; };
+		10B8FDB329BEC54900E4457F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		10B8FDB529BEC54900E4457F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +83,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		10B8FDA229BEC54800E4457F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				10B8FDAA29BEC54800E4457F /* SwiftUI.framework in Frameworks */,
+				10B8FDA829BEC54800E4457F /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -48,6 +99,8 @@
 			isa = PBXGroup;
 			children = (
 				10B8FD8129BD9C2600E4457F /* JBNU_BukBob */,
+				10B8FDAB29BEC54800E4457F /* BukBobWidget */,
+				10B8FDA629BEC54800E4457F /* Frameworks */,
 				10B8FD8029BD9C2600E4457F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -56,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				10B8FD7F29BD9C2600E4457F /* JBNU_BukBob.app */,
+				10B8FDA529BEC54800E4457F /* BukBobWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -101,6 +155,28 @@
 			path = Utilites;
 			sourceTree = "<group>";
 		};
+		10B8FDA629BEC54800E4457F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				10B8FDA729BEC54800E4457F /* WidgetKit.framework */,
+				10B8FDA929BEC54800E4457F /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		10B8FDAB29BEC54800E4457F /* BukBobWidget */ = {
+			isa = PBXGroup;
+			children = (
+				10B8FDAC29BEC54800E4457F /* BukBobWidgetBundle.swift */,
+				10B8FDAE29BEC54800E4457F /* BukBobWidgetLiveActivity.swift */,
+				10B8FDB029BEC54800E4457F /* BukBobWidget.swift */,
+				10B8FDB229BEC54800E4457F /* BukBobWidget.intentdefinition */,
+				10B8FDB329BEC54900E4457F /* Assets.xcassets */,
+				10B8FDB529BEC54900E4457F /* Info.plist */,
+			);
+			path = BukBobWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -111,15 +187,34 @@
 				10B8FD7B29BD9C2600E4457F /* Sources */,
 				10B8FD7C29BD9C2600E4457F /* Frameworks */,
 				10B8FD7D29BD9C2600E4457F /* Resources */,
+				10B8FDBB29BEC54900E4457F /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				10B8FDB929BEC54900E4457F /* PBXTargetDependency */,
 			);
 			name = JBNU_BukBob;
 			productName = JBNU_BukBob;
 			productReference = 10B8FD7F29BD9C2600E4457F /* JBNU_BukBob.app */;
 			productType = "com.apple.product-type.application";
+		};
+		10B8FDA429BEC54800E4457F /* BukBobWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 10B8FDBE29BEC54900E4457F /* Build configuration list for PBXNativeTarget "BukBobWidgetExtension" */;
+			buildPhases = (
+				10B8FDA129BEC54800E4457F /* Sources */,
+				10B8FDA229BEC54800E4457F /* Frameworks */,
+				10B8FDA329BEC54800E4457F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BukBobWidgetExtension;
+			productName = BukBobWidgetExtension;
+			productReference = 10B8FDA529BEC54800E4457F /* BukBobWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -132,6 +227,9 @@
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
 					10B8FD7E29BD9C2600E4457F = {
+						CreatedOnToolsVersion = 14.2;
+					};
+					10B8FDA429BEC54800E4457F = {
 						CreatedOnToolsVersion = 14.2;
 					};
 				};
@@ -150,6 +248,7 @@
 			projectRoot = "";
 			targets = (
 				10B8FD7E29BD9C2600E4457F /* JBNU_BukBob */,
+				10B8FDA429BEC54800E4457F /* BukBobWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -164,6 +263,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		10B8FDA329BEC54800E4457F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				10B8FDB429BEC54900E4457F /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -172,6 +279,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				10B8FD8C29BD9C2700E4457F /* Persistence.swift in Sources */,
+				10B8FDB729BEC54900E4457F /* BukBobWidget.intentdefinition in Sources */,
 				10B8FD8529BD9C2600E4457F /* ContentView.swift in Sources */,
 				10B8FD8329BD9C2600E4457F /* JBNU_BukBobApp.swift in Sources */,
 				10B8FD9829BD9D5700E4457F /* MainView.swift in Sources */,
@@ -182,7 +290,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		10B8FDA129BEC54800E4457F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				10B8FDAD29BEC54800E4457F /* BukBobWidgetBundle.swift in Sources */,
+				10B8FDAF29BEC54800E4457F /* BukBobWidgetLiveActivity.swift in Sources */,
+				10B8FDB129BEC54800E4457F /* BukBobWidget.swift in Sources */,
+				10B8FDB629BEC54900E4457F /* BukBobWidget.intentdefinition in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		10B8FDB929BEC54900E4457F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 10B8FDA429BEC54800E4457F /* BukBobWidgetExtension */;
+			targetProxy = 10B8FDB829BEC54900E4457F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		10B8FD9029BD9C2700E4457F /* Debug */ = {
@@ -302,6 +429,7 @@
 		10B8FD9329BD9C2700E4457F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -331,6 +459,7 @@
 		10B8FD9429BD9C2700E4457F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -357,6 +486,60 @@
 			};
 			name = Release;
 		};
+		10B8FDBC29BEC54900E4457F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5N6FVFS939;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BukBobWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BukBobWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "from.Hardy.JBNU-BukBob.BukBobWidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		10B8FDBD29BEC54900E4457F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5N6FVFS939;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BukBobWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BukBobWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "from.Hardy.JBNU-BukBob.BukBobWidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -374,6 +557,15 @@
 			buildConfigurations = (
 				10B8FD9329BD9C2700E4457F /* Debug */,
 				10B8FD9429BD9C2700E4457F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		10B8FDBE29BEC54900E4457F /* Build configuration list for PBXNativeTarget "BukBobWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				10B8FDBC29BEC54900E4457F /* Debug */,
+				10B8FDBD29BEC54900E4457F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
