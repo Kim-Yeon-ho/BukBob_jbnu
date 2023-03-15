@@ -6,14 +6,9 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/foodItemBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/food_list_item_line"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -22,7 +17,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/food_market"
+                android:id="@+id/food_market_widget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -34,19 +29,10 @@
                 android:textSize="25sp"
                 android:textStyle="bold" />
 
-            <ImageButton
-                android:id="@+id/widgetButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/starnonfill" />
-
         </LinearLayout>
 
         <TextView
-            android:id="@+id/FoodList"
+            android:id="@+id/foodList_widget"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"

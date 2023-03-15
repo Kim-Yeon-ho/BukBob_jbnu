@@ -1,26 +1,29 @@
+/**
+ * 2023 / 03 / 15 LeeJungHwan 작성
+ * */
+
 package com.bukbob.bukbob_android.main_Module
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bukbob.bukbob_android.MainActivity
 import com.bukbob.bukbob_android.R
-class MainAdapter(var foodList: ArrayList<String>,owner : MainActivity): RecyclerView.Adapter<MainAdapter.PagerViewHolder>() {
+
+class MainAdapter(owner : MainActivity): RecyclerView.Adapter<MainAdapter.PagerViewHolder>() {
 
     val owner = owner
+
     inner class PagerViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(
-        R.layout.food_list_view,parent,false)){
+                R.layout.food_list_view,parent,false)){
 
         val foodTitle : TextView = itemView.findViewById(R.id.FoodTitle)
         val foodDate : TextView = itemView.findViewById(R.id.FoodDate)
         val foodTime : TextView = itemView.findViewById(R.id.FoodTime)
         val foodList : RecyclerView = itemView.findViewById(R.id.FoodListView)
-
 
         /**
          * 해당 어댑터는 food_list_view.xml 파일을 기준으로 작동합니다.
@@ -36,6 +39,7 @@ class MainAdapter(var foodList: ArrayList<String>,owner : MainActivity): Recycle
 
     }
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = PagerViewHolder(parent)
     // onCreateViewHolder 메소드는 ViewHolder를 생성하는 메소드입니다. 이로 인해 차후에 View를 컨트롤 할 수 있습니다.
 
@@ -44,19 +48,20 @@ class MainAdapter(var foodList: ArrayList<String>,owner : MainActivity): Recycle
 
     override fun onBindViewHolder(holder: PagerViewHolder, position: Int) {
 
-        val FoodView = FoodViewControll(holder,position,owner)
+        val FoodView = FoodViewController(holder,position,owner)
         // FoodView를 컨트롤하는 객체를 생성합니다.
 
-        val model : MainViewModel = ViewModelProvider(owner).get(MainViewModel::class.java)
-        val modeObser = Observer<Boolean> {
+        val mainViewModel : MainViewModel = ViewModelProvider(owner).get(MainViewModel::class.java)
+        val mainViewModelObserver = Observer<Boolean> {
             FoodView.updateFoodList()
         }
 
-        model.isCheck.observe(owner,modeObser)
+        mainViewModel.isButtonCheck.observe(owner,mainViewModelObserver)
 
         FoodView.setTitle(holder,position)
         FoodView.setTime(holder)
         FoodView.setList(holder)
+        //position을 넘겨서 페이지 조식,중식,석식을 구분할 것
 
     }
 

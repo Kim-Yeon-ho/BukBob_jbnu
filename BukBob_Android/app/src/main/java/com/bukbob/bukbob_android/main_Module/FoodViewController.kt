@@ -1,3 +1,7 @@
+/**
+ * 2023 / 03 / 15 LeeJungHwan 작성
+ * */
+
 package com.bukbob.bukbob_android.main_Module
 
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -5,7 +9,7 @@ import com.bukbob.bukbob_android.MainActivity
 import com.bukbob.bukbob_android.mainList_Module.FoodListAdapter
 import java.text.SimpleDateFormat
 
-class FoodViewControll(hold : MainAdapter.PagerViewHolder, pageIndex: Int,owner: MainActivity) {
+class FoodViewController(hold : MainAdapter.PagerViewHolder, pageIndex: Int, owner: MainActivity) {
 
     val owner = owner
     val holder : MainAdapter.PagerViewHolder
@@ -29,7 +33,7 @@ class FoodViewControll(hold : MainAdapter.PagerViewHolder, pageIndex: Int,owner:
 
         holder.foodList.layoutManager = layoutManager
         holder.foodList.adapter = FoodListAdapter(arrayListOf("1","2","3"),owner)
-
+        //해당 부분에서 파이어베이스 정보를 전달해야합니다.
     }
 
     /**
