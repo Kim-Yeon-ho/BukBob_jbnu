@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MenuCardView: View {
-    var userInfo = UserInfo.shared
+    @Binding var isChecking: Bool
     static var padding = 20
 
     var menu = ["맛있는 밥", "커리돈까스", "겉절이 김치", "요플레"]
@@ -20,7 +20,7 @@ struct MenuCardView: View {
                         .font(.system(size: 25, weight: .semibold))
                         .padding(.horizontal)
                     Spacer()
-                    userInfo.isChecking ? Image("starFill").padding(.horizontal)
+                    isChecking ? Image("starFill").padding(.horizontal)
                     : Image("starNonFill").padding(.horizontal)
                 }//HStack
                 HStack {
@@ -40,14 +40,14 @@ struct MenuCardView: View {
             .contentShape(Rectangle())
             .onTapGesture(count: 2) {
                 print("eeee")
-                userInfo.isChecking.toggle()
-                print(userInfo.isChecking)
+                isChecking.toggle()
+                
             }
     }
 }
 
 struct MenuCardView_Previews: PreviewProvider {
     static var previews: some View {
-        MenuCardView()
+        MenuCardView(isChecking: .constant(false))
     }
 }

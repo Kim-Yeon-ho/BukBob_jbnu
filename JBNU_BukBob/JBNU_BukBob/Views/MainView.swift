@@ -9,12 +9,12 @@ import SwiftUI
 
 struct MainView: View {
 //    @Binding var isChecking: Bool
-
+    @State var isChecking: Bool = false
     var body: some View {
         TabView {
-            BreakfastView()
-            LunchView()
-            DinnerView()
+            BreakfastView(isChecking: $isChecking)
+            LunchView(isChecking: $isChecking)
+            DinnerView(isChecking: $isChecking)
         }
         .tabViewStyle(PageTabViewStyle())
         .onAppear {
@@ -29,6 +29,7 @@ struct MainView: View {
 }
 
 struct BreakfastView: View {
+    @Binding var isChecking: Bool
     var body: some View {
         VStack {
             HStack {
@@ -50,7 +51,7 @@ struct BreakfastView: View {
             ScrollView {
                 VStack {
                     ForEach (0..<4) {_ in
-                        MenuCardView()
+                        MenuCardView(isChecking: $isChecking)
                             .frame(height: DeviceFrame.screenHeight * 0.16)
                             .padding()
                     }
@@ -58,12 +59,12 @@ struct BreakfastView: View {
                 }
             }.frame(height: DeviceFrame.screenHeight * 0.6)
             //ScrollView
-            //화면 전환 컴포넌트
         }//VStack
     }
 }
 
 struct LunchView: View {
+    @Binding var isChecking: Bool
     var body: some View {
         VStack {
             HStack {
@@ -84,7 +85,7 @@ struct LunchView: View {
             ScrollView {
                 VStack {
                     ForEach (0..<4) {_ in
-                        MenuCardView()
+                        MenuCardView(isChecking: $isChecking)
                             .frame(height: DeviceFrame.screenHeight * 0.16)
                             .padding()
                     }
@@ -92,12 +93,12 @@ struct LunchView: View {
                 }
             }.frame(height: DeviceFrame.screenHeight * 0.6)
             //ScrollView
-            //화면 전환 컴포넌트
         }//VStack
     }
 }
 
 struct DinnerView: View {
+    @Binding var isChecking: Bool
     var body: some View {
         VStack {
             HStack {
@@ -118,7 +119,7 @@ struct DinnerView: View {
             ScrollView {
                 VStack {
                     ForEach (0..<4) {_ in
-                        MenuCardView()
+                        MenuCardView(isChecking: $isChecking)
                             .frame(height: DeviceFrame.screenHeight * 0.16)
                             .padding()
                     }
@@ -126,14 +127,13 @@ struct DinnerView: View {
                 }
             }.frame(height: DeviceFrame.screenHeight * 0.6)
             //ScrollView
-            //화면 전환 컴포넌트
         }//VStack
     }
 }
 
-//struct MainView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MainView()
-//    }
-//}
+struct MainView_Previews: PreviewProvider {
+    static var previews: some View {
+        MainView()
+    }
+}
 
