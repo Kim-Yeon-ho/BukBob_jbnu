@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MainView: View {
+//    @Binding var isChecking: Bool
+
     var body: some View {
         TabView {
             BreakfastView()
@@ -129,9 +131,9 @@ struct DinnerView: View {
     }
 }
 
-struct MainView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainView()
-    }
-}
+//struct MainView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MainView()
+//    }
+//}
 
