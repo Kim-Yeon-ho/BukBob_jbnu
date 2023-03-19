@@ -8,13 +8,19 @@
 import SwiftUI
 
 struct MainView: View {
-//    @Binding var isChecking: Bool
-    @State var isChecking: Bool = false
+    @State var isFirstChecking: Bool = false
+    @State var isSecondChecking: Bool = false
+    @State var isThirdChecking: Bool = false
+    @State var isFourChecking: Bool = false
+    @State var indexCount: Int = 0
+
     var body: some View {
         TabView {
-            BreakfastView(isChecking: $isChecking)
-            LunchView(isChecking: $isChecking)
-            DinnerView(isChecking: $isChecking)
+            BreakfastView(isFirstChecking: $isFirstChecking, isSecondChecking: $isSecondChecking, isThirdChecking: $isThirdChecking, isFourChecking: $isFourChecking, indexCount: $indexCount)
+
+            LunchView(isFirstChecking: $isFirstChecking, isSecondChecking: $isSecondChecking, isThirdChecking: $isThirdChecking, isFourChecking: $isFourChecking, indexCount: $indexCount)
+
+            DinnerView(isFirstChecking: $isFirstChecking, isSecondChecking: $isSecondChecking, isThirdChecking: $isThirdChecking, isFourChecking: $isFourChecking, indexCount: $indexCount)
         }
         .tabViewStyle(PageTabViewStyle())
         .onAppear {
@@ -29,7 +35,12 @@ struct MainView: View {
 }
 
 struct BreakfastView: View {
-    @Binding var isChecking: Bool
+    @Binding var isFirstChecking: Bool
+    @Binding var isSecondChecking: Bool
+    @Binding var isThirdChecking: Bool
+    @Binding var isFourChecking: Bool
+    @Binding var indexCount: Int
+
     var body: some View {
         VStack {
             HStack {
@@ -51,7 +62,7 @@ struct BreakfastView: View {
             ScrollView {
                 VStack {
                     ForEach (0..<4) {_ in
-                        MenuCardView(isChecking: $isChecking)
+                        MenuCardView(isFirstChecking: $isFirstChecking, isSecondChecking: $isSecondChecking, isThirdChecking: $isThirdChecking, isFourChecking: $isFourChecking, indexCount: $indexCount)
                             .frame(height: DeviceFrame.screenHeight * 0.16)
                             .padding()
                     }
@@ -64,7 +75,12 @@ struct BreakfastView: View {
 }
 
 struct LunchView: View {
-    @Binding var isChecking: Bool
+    @Binding var isFirstChecking: Bool
+    @Binding var isSecondChecking: Bool
+    @Binding var isThirdChecking: Bool
+    @Binding var isFourChecking: Bool
+    @Binding var indexCount: Int
+
     var body: some View {
         VStack {
             HStack {
@@ -85,7 +101,7 @@ struct LunchView: View {
             ScrollView {
                 VStack {
                     ForEach (0..<4) {_ in
-                        MenuCardView(isChecking: $isChecking)
+                        MenuCardView(isFirstChecking: $isFirstChecking, isSecondChecking: $isSecondChecking, isThirdChecking: $isThirdChecking, isFourChecking: $isFourChecking, indexCount: $indexCount)
                             .frame(height: DeviceFrame.screenHeight * 0.16)
                             .padding()
                     }
@@ -98,7 +114,12 @@ struct LunchView: View {
 }
 
 struct DinnerView: View {
-    @Binding var isChecking: Bool
+    @Binding var isFirstChecking: Bool
+    @Binding var isSecondChecking: Bool
+    @Binding var isThirdChecking: Bool
+    @Binding var isFourChecking: Bool
+    @Binding var indexCount: Int
+    
     var body: some View {
         VStack {
             HStack {
@@ -119,7 +140,7 @@ struct DinnerView: View {
             ScrollView {
                 VStack {
                     ForEach (0..<4) {_ in
-                        MenuCardView(isChecking: $isChecking)
+                        MenuCardView(isFirstChecking: $isFirstChecking, isSecondChecking: $isSecondChecking, isThirdChecking: $isThirdChecking, isFourChecking: $isFourChecking, indexCount: $indexCount)
                             .frame(height: DeviceFrame.screenHeight * 0.16)
                             .padding()
                     }
@@ -131,9 +152,9 @@ struct DinnerView: View {
     }
 }
 
-struct MainView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainView()
-    }
-}
-
+//struct MainView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MainView()
+//    }
+//}
+//

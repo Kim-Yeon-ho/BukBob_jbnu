@@ -8,7 +8,12 @@
 import SwiftUI
 
 struct MenuCardView: View {
-    @Binding var isChecking: Bool
+    @Binding var isFirstChecking: Bool
+    @Binding var isSecondChecking: Bool
+    @Binding var isThirdChecking: Bool
+    @Binding var isFourChecking: Bool
+    @Binding var indexCount: Int
+    
     static var padding = 20
 
     var menu = ["맛있는 밥", "커리돈까스", "겉절이 김치", "요플레"]
@@ -45,9 +50,9 @@ struct MenuCardView: View {
             }
     }
 }
-
-struct MenuCardView_Previews: PreviewProvider {
-    static var previews: some View {
-        MenuCardView(isChecking: .constant(false))
-    }
-}
+//
+//struct MenuCardView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MenuCardView(isChecking: .constant(false))
+//    }
+//}
