@@ -24,7 +24,7 @@ struct MenuCardView: View {
                     : Image("starNonFill").padding(.horizontal)
                 }//HStack
                 HStack {
-                    VStack {
+                    VStack(alignment: .leading) {
                         ForEach (menu, id: \.self) { menu in
                             Text(menu)
                                 .font(.system(size: 18))
