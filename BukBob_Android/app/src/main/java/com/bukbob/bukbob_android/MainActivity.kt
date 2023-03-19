@@ -6,17 +6,11 @@ package com.bukbob.bukbob_android
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Button
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bukbob.bukbob_android.databinding.ActivityMainBinding
-import com.bukbob.bukbob_android.mainList_Module.FoodListAdapter
 import com.bukbob.bukbob_android.main_Module.MainAdapter
-import com.bukbob.bukbob_android.main_Module.MainViewModel
-import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 class MainActivity : AppCompatActivity() {
 
 
@@ -34,5 +28,8 @@ class MainActivity : AppCompatActivity() {
         binding.mainIndicator.attachTo(binding.mainViewPager)
         // 인디케이터를 mainView에 지정해줍니다.
 
+
     }
+
+
 }

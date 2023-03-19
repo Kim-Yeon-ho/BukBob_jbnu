@@ -6,72 +6,92 @@ package com.bukbob.bukbob_android.main_Module
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bukbob.bukbob_android.MainActivity
-import com.bukbob.bukbob_android.R
+import com.bukbob.bukbob_android.databinding.FoodListViewBinding
+import com.bukbob.bukbob_android.mainList_Module.FoodListAdapter
+import java.text.SimpleDateFormat
+import java.util.*
 
-class MainAdapter(owner : MainActivity): RecyclerView.Adapter<MainAdapter.PagerViewHolder>() {
+class MainAdapter(private val owner: MainActivity): RecyclerView.Adapter<MainAdapter.PagerViewHolder>() {
+    val pageCounter = 3
 
-    val owner = owner
+    inner class PagerViewHolder(private val binding: FoodListViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    inner class PagerViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(
-                R.layout.food_list_view,parent,false)){
+        fun bind(position: Int) {
+            val mainViewModel: MainViewModel = ViewModelProvider(owner).get(MainViewModel::class.java)
+            val mainViewModelObserver = Observer<Boolean> {
+                updateFoodList(binding)
+            }
+            mainViewModel.isButtonCheck.observe(owner, mainViewModelObserver)
 
-        val foodTitle : TextView = itemView.findViewById(R.id.FoodTitle)
-        val foodDate : TextView = itemView.findViewById(R.id.FoodDate)
-        val foodTime : TextView = itemView.findViewById(R.id.FoodTime)
-        val foodList : RecyclerView = itemView.findViewById(R.id.FoodListView)
+            setTitle(binding, position)
+            setTime(binding)
+            setList(binding)
+        }
+    }
 
-        /**
-         * 해당 어댑터는 food_list_view.xml 파일을 기준으로 작동합니다.
-         *
-         * foodTitle : food_list_view.xml안에 조식,중식,석식 타이틀을 담당하는 텍스트 뷰입니다.
-         * foodDate : food_list_view.xml안에 월/일을 담당하는 텍스트 뷰입니다.
-         * foodTime : food_list_view.xml안에 식당의 운영 시간을 담당하는 텍스트 뷰입니다.
-         * foodList : food_list_view.xml안에 음식 리스트를 출력해주는 리사이클러뷰입니다.
-         *
-         *
-         * 차후 ViewBinding을 해야합니다. findViewByID가 성능적 이슈를 불러올 수 있습니다.
-         * */
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = PagerViewHolder(FoodListViewBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
+    override fun getItemCount() = pageCounter
+
+    override fun onBindViewHolder(holder: PagerViewHolder, position: Int) {
+        holder.bind(position)
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = PagerViewHolder(parent)
-    // onCreateViewHolder 메소드는 ViewHolder를 생성하는 메소드입니다. 이로 인해 차후에 View를 컨트롤 할 수 있습니다.
 
-    override fun getItemCount(): Int = 3
-    //조식,중식,석식 페이지 3개
+    fun setList(binding: FoodListViewBinding) {
+        val layoutManager = LinearLayoutManager(binding.root.context, LinearLayoutManager.VERTICAL, false)
 
-    override fun onBindViewHolder(holder: PagerViewHolder, position: Int) {
+        binding.FoodListView.layoutManager = layoutManager
+        binding.FoodListView.adapter = FoodListAdapter(arrayListOf("1", "2", "3"), owner)
+    }
+    /**
+     * setList()?
+     * 음식 리스트 어댑터에 식단 리스트를 넘겨주고 출력하는 함수입니다.
+     * */
 
-        val FoodView = FoodViewController(holder,position,owner)
-        // FoodView를 컨트롤하는 객체를 생성합니다.
-
-        val mainViewModel : MainViewModel = ViewModelProvider(owner).get(MainViewModel::class.java)
-        val mainViewModelObserver = Observer<Boolean> {
-            FoodView.updateFoodList()
+    fun setTitle(binding: FoodListViewBinding, position: Int) {
+        when (position) {
+            0 -> {
+                binding.FoodTitle.text = "조식"
+                binding.FoodTime.text = "07:00 ~ 08:30"
+            }
+            1 -> {
+                binding.FoodTitle.text = "중식"
+                binding.FoodTime.text = "11:00 ~ 14:00"
+            }
+            2 -> {
+                binding.FoodTitle.text = "석식"
+                binding.FoodTime.text = "17:30 ~ 19:00"
+            }
         }
+    }
+    /**
+     * setTitle()?
+     * 해당 함수는 식단 리스트의 각 페이지의 조식,중식,석식 및 시간을 지정하는 함수입니다.
+     * */
 
-        mainViewModel.isButtonCheck.observe(owner,mainViewModelObserver)
+    fun setTime(binding: FoodListViewBinding) {
+        val currentTime = SimpleDateFormat("HH:mm", Locale.KOREA).format(Date())
+        binding.FoodTime.text = "현재 시각 : $currentTime"
+    }
+    /**
+     * setTime()?
+     * 해당 함수는 실제 시간을 지정하는 함수입니다.
+     * */
 
-        FoodView.setTitle(holder,position)
-        FoodView.setTime(holder)
-        FoodView.setList(holder)
-        //position을 넘겨서 페이지 조식,중식,석식을 구분할 것
-
+    fun updateFoodList(binding: FoodListViewBinding) {
+        binding.FoodListView.adapter?.notifyDataSetChanged()
     }
 
     /**
-     * 해당 FoodView객체 안에는 각 setTitle(), setTime(), setList() 함수가 내장되어 있습니다.
-     * 각 함수는 PagerView inner class에서 언급한 뷰들을 컨트롤합니다.
-     *
-     *
-     * 해당 onBindViewHolder()는 최초에만 실행되어 무분별한 객체 생성이 발생하지 않습니다.
-     * 만약, 성능적 이슈가 있다면 Android profiler를 사용해서 분석해주세요.
+     * updateFoodList()?
+     * 해당 함수는
      * */
 
 }

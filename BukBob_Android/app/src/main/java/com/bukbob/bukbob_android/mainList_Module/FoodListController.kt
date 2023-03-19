@@ -19,7 +19,7 @@ class FoodListController(val listViewModel: MainViewModel, val holder: FoodListA
             setStartButtonState()
         }else{
             listViewModel.setIsCheck(true)
-            holder.widget.setImageResource(R.drawable.starfill)
+            holder.binding.widgetButton.setImageResource(R.drawable.starfill)
         }
     }
 
@@ -35,10 +35,10 @@ class FoodListController(val listViewModel: MainViewModel, val holder: FoodListA
     fun setStartButtonState(){
         if(listViewModel.isButtonCheck.value == false){
             listViewModel.setIsCheck(true)
-            holder.widget.setImageResource(R.drawable.starfill)
+            holder.binding.widgetButton.setImageResource(R.drawable.starfill)
         }else{
             listViewModel.setIsCheck(false)
-            holder.widget.setImageResource(R.drawable.starnonfill)
+            holder.binding.widgetButton.setImageResource(R.drawable.starnonfill)
         }
     }
 
@@ -52,9 +52,9 @@ class FoodListController(val listViewModel: MainViewModel, val holder: FoodListA
 
     fun asyncStartButton(position: Int){
         if(listViewModel.position.value == position && listViewModel.isButtonCheck.value == true){
-            holder.widget.setImageResource(R.drawable.starfill)
+            holder.binding.widgetButton.setImageResource(R.drawable.starfill)
         }else{
-            holder.widget.setImageResource(R.drawable.starnonfill)
+            holder.binding.widgetButton.setImageResource(R.drawable.starnonfill)
         }
     }
 

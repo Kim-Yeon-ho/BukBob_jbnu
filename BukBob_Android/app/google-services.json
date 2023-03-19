@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "481951374183",
+    "project_id": "bukbobjbnu",
+    "storage_bucket": "bukbobjbnu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:481951374183:android:5c74bff311398f925f2dc2",
+        "android_client_info": {
+          "package_name": "com.bukbob.bukbob_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "481951374183-ck5mgj96kthvucmu81h69m6sbgu1ui14.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHtQt3IovNdofnG42TWl4qRkg-QubXpxs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "481951374183-ck5mgj96kthvucmu81h69m6sbgu1ui14.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
