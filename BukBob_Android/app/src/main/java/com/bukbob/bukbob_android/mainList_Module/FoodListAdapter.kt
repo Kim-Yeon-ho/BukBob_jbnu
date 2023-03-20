@@ -76,7 +76,7 @@ class FoodListAdapter (FoodList: ArrayList<String>,owner : MainActivity): Recycl
         holder.binding.foodMarket.text = "진수당"
         holder.binding.FoodList.text = food[position]
 
-        FoodList.getFoodListData()
+        //FoodList.getFoodListData()
 
         /**
          * 식당의 이름과 메뉴를 설정하는 부분입니다. 차후 FoodListController에 함수로 구현하면 좋을것 같습니다.

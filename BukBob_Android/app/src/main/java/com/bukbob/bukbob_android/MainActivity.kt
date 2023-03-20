@@ -8,9 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.viewpager2.widget.ViewPager2
 import com.bukbob.bukbob_android.databinding.ActivityMainBinding
+import com.bukbob.bukbob_android.mainList_Module.FoodListDataController
 import com.bukbob.bukbob_android.main_Module.MainAdapter
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 class MainActivity : AppCompatActivity() {
 
 
@@ -27,6 +26,9 @@ class MainActivity : AppCompatActivity() {
         // 가로 방향 스와이프 지원을 위한 선언입니다.
         binding.mainIndicator.attachTo(binding.mainViewPager)
         // 인디케이터를 mainView에 지정해줍니다.
+
+        val f = FoodListDataController()
+        f.getFoodListData()
 
 
     }

@@ -7,7 +7,7 @@
  * 
  * 각 진수원 / 의대 / 후생관의 파싱은 인덱스 기반으로 진행했습니다.
  * 
- * 진수원 0 ~ 40번 [ 점심 / 저녁 ] 
+ * 진수원 0 ~ 40번 [ 점심 / 저녁 ]  -> new 0 ~ 9번
  * 의대  41 ~ 104번 [ 점심 / 저녁 ] -> 의대는 기존 allFoodList에서 추가적인 필터를 사용하여 작성했습니다.
  * 후생관 50 ~ allFoodList의 마지막 인덱스를 그대로 사용했습니다. 즉, allFoodList를 재활용했습니다.
  * 
@@ -23,9 +23,7 @@ const url = 'https://sobi.jbnu.ac.kr/menu/week_menu.php';
 // 소비자 생활협동조합 주소
 
 var allFoodList = [];
-var jinswoFoodList = [];
-var medicalFoodList = [];
-var husaengFoodList = [];
+var filterAllFoodList = [];
 // 각 배열은 진수원, 의대, 후생관 리스트입니다.
 
 var isUpdate = false;
@@ -40,13 +38,13 @@ const CheckFoodUpdate = async ()=>{
 
   GetFoodHTML();
 
-  await WaitResponse(60000);
+  await WaitResponse(1000);
   // 테스트는 10sec로 진행했습니다.
   // 안정적인 작업을 위해 실제 서비스 할 경우 60sec로 적용하여 진행해주세요.
   // +- 2sec의 오차범위가 존재합니다.
 
   if(isUpdate){
-    return [jinswoFoodList,medicalFoodList,husaengFoodList];
+    return [filterAllFoodList];
   }else{
     return 1;
   }
@@ -94,39 +92,24 @@ const GetFoodHTML = async () => {
    */
   try{
     GetFoodHTML().then(html => {
-      allFoodList = html.toString().split('<br>').toString().split(',');
+      //allFoodList = html.toString().split('<br>').toString().split(',');
       //진수당 중식,석식 Parser
+
+      allFoodList = html.toString().split('<td>').toString().split(',');
+
+      //console.log(allFoodList)
     
     }).then(()=>{
-      for(var i = 0; i < 40; i++){
-      jinswoFoodList.push(allFoodList[i]);
-      }
-    }).then(() => {
-      const list = allFoodList.toString()
-                    .split('</span>').toString()
-                    .split('<span style="font-size: 14px; letter-spacing: -1px;">').toString()
-                    .split('<br style="font-size: 14px; letter-spacing: -1px;">').toString()
-                    .split(',');
-    
-      for(var i = 41; i < 104; i++){
-        if(list[i] !== ''){
-          medicalFoodList.push(list[i]);
+      var FoodList = new Map()
+      var list
+      for(var i = 0; i < allFoodList.length; i++){
+        list = allFoodList[i].split('<br>')
+        FoodList = {
+          List : list
         }
+        filterAllFoodList.push(FoodList);
       }
-    
-      //의대 중식,석식 Parser
-      //해당 부분은 for문으로 순회하여 공백칸을 제거하기위해 for문이 사용됐습니다.
-    
     }).then(()=>{
-      //후생관 Parser
-      //차후에 이곳을 파이어베이스 업데이트 구간으로 사용할 것
-      //해당 부분은 for문을 사용하여 allFoodList의 50번 구간부터 husaengFoodList에 메뉴를 추가했습니다.
-    
-        for(var i = 50; i < allFoodList.length; i++){
-          husaengFoodList.push(allFoodList[i]);
-        }
-    
-      }).then(()=>{
         isUpdate = true;
       })
   }catch(e){
