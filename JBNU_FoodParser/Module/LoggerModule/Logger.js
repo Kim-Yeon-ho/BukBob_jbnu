@@ -1,3 +1,10 @@
+/***
+ * 
+ * 2023/03/20 (월)
+ * 작성자 : LeeJungHwan
+ * 
+ */
+
 import fs from 'fs';
 const logPath = '../JBNU_FoodParser/Logs/logs.txt';
 

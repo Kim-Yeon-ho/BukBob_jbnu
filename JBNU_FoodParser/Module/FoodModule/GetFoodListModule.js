@@ -1,17 +1,10 @@
-/**
- * 작성일 : 2023 / 03 / 08
+/***
+ * 2023/03/20 (월)
+ * 작성자 : LeeJungHwan
  * 
  * 주의! 매번 홈페이지의 주요 태그가 변경되어 수시로 업데이트 해줘야 할 수도 있습니다.
- * 
  * '전북대학교생활협동조합 주간메뉴'사이트를 기준으로 파싱해 사용한 코드입니다.
  * 
- * 각 진수원 / 의대 / 후생관의 파싱은 인덱스 기반으로 진행했습니다.
- * 
- * 진수원 0 ~ 40번 [ 점심 / 저녁 ]  -> new 0 ~ 9번
- * 의대  41 ~ 104번 [ 점심 / 저녁 ] -> 의대는 기존 allFoodList에서 추가적인 필터를 사용하여 작성했습니다.
- * 후생관 50 ~ allFoodList의 마지막 인덱스를 그대로 사용했습니다. 즉, allFoodList를 재활용했습니다.
- * 
- * 즉, 모든 필터 문서의 기반은 allFoodList를 기반으로 재활용 했습니다.
  * 추가적으로 여기서 말하는 문서란 html을 말하는 것이며, html을 담은 변수를 뜻합니다.
  */
 
@@ -38,7 +31,7 @@ const CheckFoodUpdate = async ()=>{
 
   GetFoodHTML();
 
-  await WaitResponse(1000);
+  await WaitResponse(60000);
   // 테스트는 10sec로 진행했습니다.
   // 안정적인 작업을 위해 실제 서비스 할 경우 60sec로 적용하여 진행해주세요.
   // +- 2sec의 오차범위가 존재합니다.
@@ -92,20 +85,16 @@ const GetFoodHTML = async () => {
    */
   try{
     GetFoodHTML().then(html => {
-      //allFoodList = html.toString().split('<br>').toString().split(',');
-      //진수당 중식,석식 Parser
 
       allFoodList = html.toString().split('<td>').toString().split(',');
-
-      //console.log(allFoodList)
     
     }).then(()=>{
       var FoodList = new Map()
-      var list
+      var foodItem
       for(var i = 0; i < allFoodList.length; i++){
-        list = allFoodList[i].split('<br>')
+        foodItem = allFoodList[i].split('<br>')
         FoodList = {
-          List : list
+          List : foodItem
         }
         filterAllFoodList.push(FoodList);
       }

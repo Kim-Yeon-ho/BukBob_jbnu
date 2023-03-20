@@ -1,3 +1,11 @@
+/***
+ * 
+ * 2023/03/20 (월)
+ * 작성자 : LeeJungHwan
+ * 
+ */
+
+
 import  FoodListUpdateStart  from './Module/FoodModule/UpdateFoodListModule.js';
 import  EditLog  from '../JBNU_FoodParser/Module/LoggerModule/Logger.js';
 
