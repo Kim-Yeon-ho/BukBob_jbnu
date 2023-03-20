@@ -14,12 +14,12 @@ import  EditLog from '../LoggerModule/Logger.js';
 const apiKey = initializeApp(firebaseConfig);
 const fireDB = getFirestore(apiKey);
 
-const weeks = ['월','화','수','목','금']
-const foodWeekIndex = [[20,25,30,35,40,45],[21,26,31,36,41,46],[22,27,32,37,42,47],[23,28,33,38,43,48],[24,29,34,39,44,49]]
+const weeks = ['월','화','수','목','금'];
+const foodWeekIndex = [[20,25,30,35,40,45],[21,26,31,36,41,46],[22,27,32,37,42,47],[23,28,33,38,43,48],[24,29,34,39,44,49]];
 //각 요일별 후생관 한식 ~ 샐러드 까지의 인덱스 번호입니다.
-const omuriceIndex = [52,53,54,55,56]
+const omuriceIndex = [52,53,54,55,56];
 // 돈까스와 오므라이스 공통 영역을 제외한 각 요일별 오므라이스 인덱스 번호입니다.
-var weeksCounter = 0
+var weeksCounter = 0;
 // for문을 사용할때 요일을 카운트 하기 위한 변수입니다.
 
 
@@ -41,10 +41,10 @@ var weeksCounter = 0
 const DbFoodListUpdateStart = ((foodArr) => {
 
   try {
-    SetDbJinswoMedical(foodArr, 0, 5, 'Jinswo', '진수원', '중식')
-    SetDbJinswoMedical(foodArr, 5, 10, 'Jinswo-night', '진수원', '석식')
-    SetDbJinswoMedical(foodArr, 10, 15, 'Medical', '의대', '중식')
-    SetDbJinswoMedical(foodArr, 15, 20, 'Medical-night', '의대', '석식')
+    SetDbJinswoMedical(foodArr, 0, 5, 'Jinswo', '진수원', '중식');
+    SetDbJinswoMedical(foodArr, 5, 10, 'Jinswo-night', '진수원', '석식');
+    SetDbJinswoMedical(foodArr, 10, 15, 'Medical', '의대', '중식');
+    SetDbJinswoMedical(foodArr, 15, 20, 'Medical-night', '의대', '석식');
     SetDbHusaeng(foodArr);
 
   } catch (e) {
@@ -60,7 +60,7 @@ const DbFoodListUpdateStart = ((foodArr) => {
 
 const SetDbJinswoMedical = ((foodArr, start, end, docName, title, state)=>{
 
-  weeksCounter = 0
+  weeksCounter = 0;
 
   for(var i = start; i < end; i++){
     setDoc(doc(fireDB,docName,weeks[weeksCounter]),{
@@ -69,7 +69,7 @@ const SetDbJinswoMedical = ((foodArr, start, end, docName, title, state)=>{
       Title : title,
       List : foodArr[0][i].List
     });
-    weeksCounter++
+    weeksCounter++;
   }
 
 })
@@ -82,25 +82,25 @@ const SetDbJinswoMedical = ((foodArr, start, end, docName, title, state)=>{
 
 const SetDbHusaeng = ((foodArr)=>{
 
-  weeksCounter = 0
+  weeksCounter = 0;
   try{
     foodWeekIndex.forEach(list =>{
       var foodItemList = ""
         list.forEach(index=>{
-          foodItemList += foodArr[0][index].List + "</br>"
-        })
+          foodItemList += foodArr[0][index].List + "</br>";
+        });
 
-        foodItemList += foodArr[0][50].List + "</br>"
-        foodItemList += foodArr[0][51].List + "</br>"
-        foodItemList += foodArr[0][omuriceIndex[weeksCounter]].List + "</br>"
+        foodItemList += foodArr[0][50].List + "</br>";
+        foodItemList += foodArr[0][51].List + "</br>";
+        foodItemList += foodArr[0][omuriceIndex[weeksCounter]].List + "</br>";
         /***
          * 50 ~ 51은 양식 -> 돈까스류 오므라이스류 요일별 공통 메뉴 입니다.
          * 52 ~ 56은 양식 -> 요일별 오므라이스류 메뉴 입니다.
          */
 
-        foodItemList += foodArr[0][57].List + "</br>"
-        foodItemList += foodArr[0][58].List + "</br>"
-        foodItemList += foodArr[0][59].List + "</br>"
+        foodItemList += foodArr[0][57].List + "</br>";
+        foodItemList += foodArr[0][58].List + "</br>";
+        foodItemList += foodArr[0][59].List + "</br>";
         /***
          * 57 ~ 58은 후생관의 분식 항목에서 김밥,라면,우동을 나타내는 Index입니다.
          */
@@ -110,11 +110,11 @@ const SetDbHusaeng = ((foodArr)=>{
           state : '중식',
           Title : 'Husaeng',
           List : foodItemList
-        })
-        weeksCounter++
+        });
+        weeksCounter++;
     })
   }catch(e){
-    console.log(e)
+    console.log(e);
   }
 
 })
