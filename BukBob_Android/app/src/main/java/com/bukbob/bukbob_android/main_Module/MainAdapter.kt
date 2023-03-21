@@ -4,33 +4,27 @@
 
 package com.bukbob.bukbob_android.main_Module
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bukbob.bukbob_android.MainActivity
 import com.bukbob.bukbob_android.databinding.FoodListViewBinding
 import com.bukbob.bukbob_android.mainList_Module.FoodListAdapter
+import com.bukbob.bukbob_android.mainList_Module.FoodListDataModel
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
-class MainAdapter(private val owner: MainActivity): RecyclerView.Adapter<MainAdapter.PagerViewHolder>() {
-    val pageCounter = 3
+class MainAdapter(private val owner: MainActivity,private var foodArray: ArrayList<FoodListDataModel.FoodList>): RecyclerView.Adapter<MainAdapter.PagerViewHolder>() {
+    private val pageCounter = 3
 
     inner class PagerViewHolder(private val binding: FoodListViewBinding) : RecyclerView.ViewHolder(binding.root) {
-
         fun bind(position: Int) {
-            val mainViewModel: MainViewModel = ViewModelProvider(owner).get(MainViewModel::class.java)
-            val mainViewModelObserver = Observer<Boolean> {
-                updateFoodList(binding)
-            }
-            mainViewModel.isButtonCheck.observe(owner, mainViewModelObserver)
-
             setTitle(binding, position)
             setTime(binding)
-            setList(binding)
+            setList(binding,position)
         }
     }
 
@@ -44,15 +38,21 @@ class MainAdapter(private val owner: MainActivity): RecyclerView.Adapter<MainAda
 
 
 
-    fun setList(binding: FoodListViewBinding) {
+    fun setList(binding: FoodListViewBinding,position: Int) {
         val layoutManager = LinearLayoutManager(binding.root.context, LinearLayoutManager.VERTICAL, false)
 
         binding.FoodListView.layoutManager = layoutManager
-        binding.FoodListView.adapter = FoodListAdapter(arrayListOf("1", "2", "3"), owner)
+        when(position){
+            0 -> binding.FoodListView.adapter = FoodListAdapter(foodArray, owner) // 아침
+            1 -> binding.FoodListView.adapter = FoodListAdapter(foodArray, owner) // 점심
+            2 -> binding.FoodListView.adapter = FoodListAdapter(foodArray, owner) // 저녁
+        }
+        //이곳에서 데이터를 넘겨줄것 postion이 아침일 경우 기숙사 식당 밥을 , 점심일 경우 각 식당밥을 , 저녁일 경우도 고려하여 넘겨줄 것 when을 사용해볼 것
     }
     /**
      * setList()?
      * 음식 리스트 어댑터에 식단 리스트를 넘겨주고 출력하는 함수입니다.
+     * 차후 sqlite와 같은 라이브러리에서 postion을 사용해 아침,점심,저녁을 구분하고 처리해야합니다.
      * */
 
     fun setTitle(binding: FoodListViewBinding, position: Int) {
@@ -77,21 +77,11 @@ class MainAdapter(private val owner: MainActivity): RecyclerView.Adapter<MainAda
      * */
 
     fun setTime(binding: FoodListViewBinding) {
-        val currentTime = SimpleDateFormat("HH:mm", Locale.KOREA).format(Date())
-        binding.FoodTime.text = "현재 시각 : $currentTime"
+        val currentTime = SimpleDateFormat("MM/dd E", Locale.KOREA).format(Date())
+        binding.FoodDate.text = currentTime
     }
     /**
      * setTime()?
-     * 해당 함수는 실제 시간을 지정하는 함수입니다.
+     * 해당 함수는 실제 날짜를 알려주는 함수입니다.
      * */
-
-    fun updateFoodList(binding: FoodListViewBinding) {
-        binding.FoodListView.adapter?.notifyDataSetChanged()
-    }
-
-    /**
-     * updateFoodList()?
-     * 해당 함수는
-     * */
-
 }

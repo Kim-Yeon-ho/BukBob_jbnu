@@ -10,7 +10,7 @@ import  FoodListUpdateStart  from './Module/FoodModule/UpdateFoodListModule.js';
 import  EditLog  from '../JBNU_FoodParser/Module/LoggerModule/Logger.js';
 
 try{
-    setInterval(FoodListUpdateStart,7200000,null);
+    setInterval(FoodListUpdateStart,1000,null);
     EditLog('Update Start');
 
     // 24 시간 86400000 -> 상용 단계에서 권장

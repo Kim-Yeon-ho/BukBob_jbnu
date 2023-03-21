@@ -31,7 +31,7 @@ const CheckFoodUpdate = async ()=>{
 
   GetFoodHTML();
 
-  await WaitResponse(60000);
+  await WaitResponse(1000);
   // 테스트는 10sec로 진행했습니다.
   // 안정적인 작업을 위해 실제 서비스 할 경우 60sec로 적용하여 진행해주세요.
   // +- 2sec의 오차범위가 존재합니다.
@@ -92,7 +92,7 @@ const GetFoodHTML = async () => {
       var FoodList = new Map()
       var foodItem
       for(var i = 0; i < allFoodList.length; i++){
-        foodItem = allFoodList[i].split('<br>')
+        foodItem = allFoodList[i].split('<br>');
         FoodList = {
           List : foodItem
         }

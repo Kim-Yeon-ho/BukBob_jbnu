@@ -9,7 +9,7 @@ import com.bukbob.bukbob_android.main_Module.MainViewModel
 
 
 // 해당 함수는 FoodListAdapter에 의해 호출됩니다.
-class FoodListController(val listViewModel: MainViewModel, val holder: FoodListAdapter.ViewHolder) {
+class FoodListViewController(private val listViewModel: MainViewModel, private val holder: FoodListAdapter.ViewHolder) {
 
     fun checkStarButton(position: Int){
         val isDifferentStart = isDifferentStartCheck(position)
@@ -32,7 +32,7 @@ class FoodListController(val listViewModel: MainViewModel, val holder: FoodListA
      * 두번째로 다른 위치의 위젯 즐겨찾기 버튼을 눌렀을 때 라이브 데이터를 변경하고 클릭한 버튼을 즐겨찾기 처리합니다.
      * */
 
-    fun setStartButtonState(){
+    private fun setStartButtonState(){
         if(listViewModel.isButtonCheck.value == false){
             listViewModel.setIsCheck(true)
             holder.binding.widgetButton.setImageResource(R.drawable.starfill)
@@ -64,7 +64,7 @@ class FoodListController(val listViewModel: MainViewModel, val holder: FoodListA
      * 해당 함수는 각 페이지마다 위젯 즐겨찾기 버튼의 클릭 유/무를 동기화해줍니다.
      * */
 
-    fun isDifferentStartCheck(position: Int) : Boolean{
+    private fun isDifferentStartCheck(position: Int) : Boolean{
         return listViewModel.position.value == position
     }
 
