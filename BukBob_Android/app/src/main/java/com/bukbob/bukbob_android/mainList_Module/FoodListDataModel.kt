@@ -33,10 +33,10 @@ class FoodListDataModel {
             try {
                 val document = docRef.get().await()
                 if (document != null) {
-                    if(document.data!!["List"] is String){
-                        foodList = arrayListOf(document.data!!["List"])
+                    foodList = if(document.data!!["List"] is String){
+                        arrayListOf(document.data!!["List"])
                     }else{
-                        foodList = document.data!!["List"] as ArrayList<*>
+                        document.data!!["List"] as ArrayList<*>
                     }
 
                     foodItem = FoodList(
@@ -53,7 +53,10 @@ class FoodListDataModel {
         }
     }
 
-
+    /**
+     * 각 식당의 점심 식단 리스트를 받아오는 함수입니다.
+     * 코루틴이 적용되었습니다.
+     * */
 
     suspend fun requestFoodListDinner(
         date:String,
@@ -69,10 +72,10 @@ class FoodListDataModel {
             try {
                 val document = docRef.get().await()
                 if (document != null) {
-                    if(document.data!!["List"] is String){
-                        foodList = arrayListOf(document.data!!["List"])
+                    foodList = if(document.data!!["List"] is String){
+                        arrayListOf(document.data!!["List"])
                     }else{
-                        foodList = document.data!!["List"] as ArrayList<*>
+                        document.data!!["List"] as ArrayList<*>
                     }
 
                     foodItem = FoodList(
@@ -88,6 +91,11 @@ class FoodListDataModel {
             }
         }
     }
+
+    /**
+     * 각 식당의 저녁 식단 리스트를 받아오는 함수입니다.
+     * 코루틴이 적용되었습니다.
+     * */
 
 
     private fun checkNight(marketTitle : String, state:String) : String{

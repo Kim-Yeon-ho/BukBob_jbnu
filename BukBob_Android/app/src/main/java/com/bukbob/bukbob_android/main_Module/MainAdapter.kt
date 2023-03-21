@@ -4,9 +4,7 @@
 
 package com.bukbob.bukbob_android.main_Module
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -53,13 +51,8 @@ class MainAdapter(private val owner: MainActivity,private var foodArrayBreakFast
                     binding.FoodListView.adapter = FoodListAdapter(foodArrayDinner, owner)
             }
         }
-        //이곳에서 데이터를 넘겨줄것 postion이 아침일 경우 기숙사 식당 밥을 , 점심일 경우 각 식당밥을 , 저녁일 경우도 고려하여 넘겨줄 것 when을 사용해볼 것
+        //뷰 페이저 페이지 (조식,중식,석식)을 구분하여 When으로 해당 식단이 담긴 Array를 전달합니다.
     }
-    /**
-     * setList()?
-     * 음식 리스트 어댑터에 식단 리스트를 넘겨주고 출력하는 함수입니다.
-     * 차후 sqlite와 같은 라이브러리에서 postion을 사용해 아침,점심,저녁을 구분하고 처리해야합니다.
-     * */
 
     fun setTitle(binding: FoodListViewBinding, position: Int) {
         when (position) {
