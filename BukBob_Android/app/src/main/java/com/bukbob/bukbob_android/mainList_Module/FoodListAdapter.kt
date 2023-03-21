@@ -7,6 +7,7 @@ package com.bukbob.bukbob_android.mainList_Module
 import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -54,11 +55,13 @@ class FoodListAdapter (private var foodList: ArrayList<FoodListDataModel.FoodLis
     inner class ViewHolder(val binding: FoodListItemViewBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+
         val binding = FoodListItemViewBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
+
         return ViewHolder(binding)
     }
 
@@ -72,19 +75,17 @@ class FoodListAdapter (private var foodList: ArrayList<FoodListDataModel.FoodLis
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        Log.d("테스트",foodList.size.toString())
-
-        holder.binding.foodMarket.text = foodList[position].Title
-        holder.binding.FoodList.text = foodList[position].List.toString()
-
         /**
          * 식당의 이름과 메뉴를 설정하는 부분입니다. 차후 FoodListController에 함수로 구현하면 좋을것 같습니다.
          * */
-
+        Log.d("테스트",foodList.size.toString())
         foodController = FoodListViewController(listViewModel, holder)
         //FoodListController의 객체를 선언합니다.
         foodController.asyncStartButton(position)
         //각 페이지마다 즐겨찾기 버튼을 동기화 해주는 함수입니다.
+
+        foodController.setFoodList(foodList[position].Title,foodList[position].List)
+
 
         holder.binding.widgetButton.setOnClickListener {
             foodController.checkStarButton(position)

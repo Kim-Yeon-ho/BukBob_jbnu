@@ -108,7 +108,7 @@ const SetDbHusaeng = ((foodArr)=>{
         setDoc(doc(fireDB,'Husaeng',weeks[weeksCounter]),{
           Weeks : weeks[weeksCounter],
           state : '중식',
-          Title : 'Husaeng',
+          Title : '후생관',
           List : foodItemList
         });
         weeksCounter++;

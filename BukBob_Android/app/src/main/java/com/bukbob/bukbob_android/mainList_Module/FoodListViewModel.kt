@@ -6,11 +6,18 @@ import androidx.lifecycle.ViewModel
 class FoodListViewModel : ViewModel() {
 
     private val listModel = FoodListDataModel()
-    var foodItem : MutableLiveData<FoodListDataModel.FoodList> = MutableLiveData(FoodListDataModel.FoodList(
+    var foodItemLunch : MutableLiveData<FoodListDataModel.FoodList> = MutableLiveData(FoodListDataModel.FoodList(
         arrayListOf(""),"","",""))
 
-    suspend fun getFoodList(date:String, marketTitle:String, state:String, foodViewModel : FoodListViewModel){
-        listModel.requestFoodList(date,marketTitle, state,foodViewModel)
+    var foodItemDinner : MutableLiveData<FoodListDataModel.FoodList> = MutableLiveData(FoodListDataModel.FoodList(
+        arrayListOf(""),"","",""))
+
+    suspend fun getFoodListLunch(date:String, marketTitle:String, state:String, foodViewModel : FoodListViewModel){
+        listModel.requestFoodListLunch(date,marketTitle, state,foodViewModel)
+    }
+
+    suspend fun getFoodListDinner(date:String, marketTitle:String, state:String, foodViewModel : FoodListViewModel){
+        listModel.requestFoodListDinner(date,marketTitle, state,foodViewModel)
     }
 
 }

@@ -4,12 +4,15 @@
 
 package com.bukbob.bukbob_android.mainList_Module
 
+import android.util.Log
 import com.bukbob.bukbob_android.R
 import com.bukbob.bukbob_android.main_Module.MainViewModel
 
 
 // 해당 함수는 FoodListAdapter에 의해 호출됩니다.
 class FoodListViewController(private val listViewModel: MainViewModel, private val holder: FoodListAdapter.ViewHolder) {
+
+    val menu : Array<String> = arrayOf("찌개","돌솥","특식","도시락","덮밥/비빔밥","샐러드","돈까스류","오므라이스류","오므라이스류","김밥","라면","우동")
 
     fun checkStarButton(position: Int){
         val isDifferentStart = isDifferentStartCheck(position)
@@ -63,6 +66,37 @@ class FoodListViewController(private val listViewModel: MainViewModel, private v
      *
      * 해당 함수는 각 페이지마다 위젯 즐겨찾기 버튼의 클릭 유/무를 동기화해줍니다.
      * */
+
+    fun setFoodList(foodMarketName:String, foodList:ArrayList<*>){
+        var list = ""
+
+        if(foodMarketName == "후생관"){
+            setHuseangFoodList(foodMarketName, foodList)
+        }else {
+            foodList.forEach {
+                list += it.toString().replace("&amp;", "").replace("&nbsp;", "") + '\n'
+            }
+            holder.binding.foodMarket.text = foodMarketName
+            holder.binding.FoodList.text = list
+        }
+    }
+
+    private fun setHuseangFoodList(title: String,foodList: ArrayList<*>){
+        var index = 0
+        var listArray = foodList[0].toString().split("</br>")
+        var list = ""
+        listArray.forEach {
+            if(it !="" && it != ",") {
+                list += "${menu[index]} \n${it.replace("&amp;", "").replace("&nbsp;", "")}" + "\n\n"
+                index++
+            }else if(it == ","){
+                list += "${menu[index]} \n운영없음" + "\n\n"
+            }
+        }
+
+        holder.binding.foodMarket.text = title
+        holder.binding.FoodList.text = list
+    }
 
     private fun isDifferentStartCheck(position: Int) : Boolean{
         return listViewModel.position.value == position

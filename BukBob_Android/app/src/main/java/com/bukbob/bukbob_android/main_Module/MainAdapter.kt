@@ -6,6 +6,7 @@ package com.bukbob.bukbob_android.main_Module
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +18,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class MainAdapter(private val owner: MainActivity,private var foodArray: ArrayList<FoodListDataModel.FoodList>): RecyclerView.Adapter<MainAdapter.PagerViewHolder>() {
+class MainAdapter(private val owner: MainActivity,private var foodArrayBreakFast: ArrayList<FoodListDataModel.FoodList>,private var foodArrayLunch: ArrayList<FoodListDataModel.FoodList>,private var foodArrayDinner: ArrayList<FoodListDataModel.FoodList>): RecyclerView.Adapter<MainAdapter.PagerViewHolder>() {
     private val pageCounter = 3
 
     inner class PagerViewHolder(private val binding: FoodListViewBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -40,12 +41,17 @@ class MainAdapter(private val owner: MainActivity,private var foodArray: ArrayLi
 
     fun setList(binding: FoodListViewBinding,position: Int) {
         val layoutManager = LinearLayoutManager(binding.root.context, LinearLayoutManager.VERTICAL, false)
-
         binding.FoodListView.layoutManager = layoutManager
         when(position){
-            0 -> binding.FoodListView.adapter = FoodListAdapter(foodArray, owner) // 아침
-            1 -> binding.FoodListView.adapter = FoodListAdapter(foodArray, owner) // 점심
-            2 -> binding.FoodListView.adapter = FoodListAdapter(foodArray, owner) // 저녁
+            0 -> {
+                    binding.FoodListView.adapter = FoodListAdapter(foodArrayBreakFast, owner)
+            }
+            1 -> {
+                    binding.FoodListView.adapter = FoodListAdapter(foodArrayLunch, owner)
+            }
+            2 -> {
+                    binding.FoodListView.adapter = FoodListAdapter(foodArrayDinner, owner)
+            }
         }
         //이곳에서 데이터를 넘겨줄것 postion이 아침일 경우 기숙사 식당 밥을 , 점심일 경우 각 식당밥을 , 저녁일 경우도 고려하여 넘겨줄 것 when을 사용해볼 것
     }

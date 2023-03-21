@@ -7,7 +7,7 @@ package com.bukbob.bukbob_android
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
@@ -27,9 +27,11 @@ import kotlin.collections.ArrayList
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    lateinit var mainViewModel: MainViewModel
-    lateinit var foodViewModel: FoodListViewModel
-    var foodArray : ArrayList<FoodListDataModel.FoodList> = ArrayList(6)
+    private lateinit var mainViewModel: MainViewModel
+    private lateinit var foodViewModel: FoodListViewModel
+    private var foodArrayBreakFast : ArrayList<FoodListDataModel.FoodList> = ArrayList(8)
+    private var foodArrayLunch : ArrayList<FoodListDataModel.FoodList> = ArrayList(8)
+    private var foodArrayDinner : ArrayList<FoodListDataModel.FoodList> = ArrayList(8)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -43,33 +45,25 @@ class MainActivity : AppCompatActivity() {
         }
         mainViewModel.isButtonCheck.observe(this, mainViewModelObserver)
 
-        val foodViewModelObserver = Observer<FoodListDataModel.FoodList> {
+        val foodViewModelLunchObserver = Observer<FoodListDataModel.FoodList> {
             if(it != null) {
-                if (it.state != "") {
-                    foodArray.add(it)
+                if (it.state != ""&& foodArrayLunch.indexOf(it) == -1) {
+                    foodArrayLunch.add(it)
                 }
             }
         }
-        foodViewModel.foodItem?.observe(this, foodViewModelObserver)
+        foodViewModel.foodItemLunch.observe(this, foodViewModelLunchObserver)
 
-        CoroutineScope(Dispatchers.Main).launch {
-            withContext(Dispatchers.Main){
-                val currentTime = SimpleDateFormat("E", Locale.KOREA).format(Date())
-
-                foodViewModel.getFoodList(currentTime,"Jinswo","",foodViewModel)
-                foodViewModel.getFoodList(currentTime,"Medical","",foodViewModel)
-                foodViewModel.getFoodList(currentTime,"Husaeng","",foodViewModel)
-                foodViewModel.getFoodList(currentTime,"Jinswo-night","",foodViewModel)
-                foodViewModel.getFoodList(currentTime,"Medical-night","",foodViewModel)
-
+        val foodViewModelDinnerObserver = Observer<FoodListDataModel.FoodList> {
+            if(it != null) {
+                if (it.state != "" && foodArrayDinner.indexOf(it) == -1) {
+                    foodArrayDinner.add(it)
+                }
             }
-
-            Log.d("데이터",foodArray.size.toString())
-
-            binding.mainViewPager.adapter = MainAdapter(this@MainActivity,foodArray)
-            binding.mainViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-            binding.mainIndicator.attachTo(binding.mainViewPager)
         }
+        foodViewModel.foodItemDinner.observe(this, foodViewModelDinnerObserver)
+
+        setFoodData()
 
     }
 
@@ -78,5 +72,25 @@ class MainActivity : AppCompatActivity() {
         binding.mainViewPager.adapter?.notifyDataSetChanged()
     }
 
+    private fun setFoodData(){
+        CoroutineScope(Dispatchers.Main).launch {
+            withContext(Dispatchers.Main){
+                val currentTime = SimpleDateFormat("E", Locale.KOREA).format(Date())
+
+                foodViewModel.getFoodListLunch(currentTime,"Jinswo","",foodViewModel)
+                foodViewModel.getFoodListLunch(currentTime,"Medical","",foodViewModel)
+                foodViewModel.getFoodListLunch(currentTime,"Husaeng","",foodViewModel)
+                foodViewModel.getFoodListDinner(currentTime,"Jinswo","night",foodViewModel)
+                foodViewModel.getFoodListDinner(currentTime,"Medical","night",foodViewModel)
+
+                binding.lottie.visibility = View.GONE
+                binding.lottie.cancelAnimation()
+            }
+
+            binding.mainViewPager.adapter = MainAdapter(this@MainActivity,foodArrayBreakFast,foodArrayLunch,foodArrayDinner)
+            binding.mainViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+            binding.mainIndicator.attachTo(binding.mainViewPager)
+        }
+    }
 
 }
