@@ -19,10 +19,7 @@ import com.bukbob.bukbob_android.main_Module.MainAdapter
 import com.bukbob.bukbob_android.main_Module.MainViewModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -35,8 +32,9 @@ class MainActivity : AppCompatActivity() {
     private var foodArrayBreakFast : ArrayList<FoodListDataModel.FoodList> = ArrayList(8)
     private var foodArrayLunch : ArrayList<FoodListDataModel.FoodList> = ArrayList(8)
     private var foodArrayDinner : ArrayList<FoodListDataModel.FoodList> = ArrayList(8)
-    val currentTime = SimpleDateFormat("E", Locale.KOREA).format(Date())
-    val dbTime = SimpleDateFormat("yyyyMMdd", Locale.KOREA).format(Date())
+    private val currentTime: String = SimpleDateFormat("E", Locale.KOREA).format(Date())
+    private val dbTime: String = SimpleDateFormat("yyyyMMdd", Locale.KOREA).format(Date())
+    private val sharedPreferencesName : String = "updateInfo"
 
 
     /**
@@ -61,25 +59,39 @@ class MainActivity : AppCompatActivity() {
 
         val foodViewModelLunchObserver = Observer<FoodListDataModel.FoodList> {
             if(it != null) {
-                if (it.state != ""&& foodArrayLunch.indexOf(it) == -1) {
+                if (it.state != "") {
                     foodArrayLunch.add(it)
                 }
             }
         }
-        foodViewModel.foodItemLunch.observe(this, foodViewModelLunchObserver)
+        foodViewModel.lunchFoodItem.observe(this, foodViewModelLunchObserver)
 
         val foodViewModelDinnerObserver = Observer<FoodListDataModel.FoodList> {
             if(it != null) {
-                if (it.state != "" && foodArrayDinner.indexOf(it) == -1) {
+                if (it.state != "") {
                     foodArrayDinner.add(it)
                 }
             }
         }
-        foodViewModel.foodItemDinner.observe(this, foodViewModelDinnerObserver)
+        foodViewModel.dinnerFoodItem.observe(this, foodViewModelDinnerObserver)
 
         CoroutineScope(Dispatchers.Main).launch {
-            checkDb()
+            withContext(Dispatchers.IO) {
+                checkDb()
+            }
+
+            setView()
+
+            withContext(Dispatchers.IO){
+                try {
+                    if(readDBInfo() == "없음") {
+                        setUpdataInfo(foodArrayLunch[1].Title)
+                    }
+                }catch (e : java.lang.Exception){}
+                //db가 정상 콜 확인 더미 정보
+            }
         }
+
 
         /**
          * ViewModelProvider를 사용해 각 mainViewModel과 foodViewModel의 Provider를 설정합니다.
@@ -95,68 +107,94 @@ class MainActivity : AppCompatActivity() {
         binding.mainViewPager.adapter?.notifyDataSetChanged()
     }
 
-    private fun setFoodData(){
-        CoroutineScope(Dispatchers.Main).launch {
-            withContext(Dispatchers.Main){
-
-                foodViewModel.getFoodListLunch(currentTime,"Jinswo","",foodViewModel)
-                foodViewModel.getFoodListLunch(currentTime,"Medical","",foodViewModel)
-                foodViewModel.getFoodListLunch(currentTime,"Husaeng","",foodViewModel)
-                foodViewModel.getFoodListDinner(currentTime,"Jinswo","night",foodViewModel)
-                foodViewModel.getFoodListDinner(currentTime,"Medical","night",foodViewModel)
-
-                binding.lottie.visibility = View.GONE
-                binding.lottie.cancelAnimation()
-            }
-
-            binding.mainViewPager.adapter = MainAdapter(this@MainActivity,foodArrayBreakFast,foodArrayLunch,foodArrayDinner)
-            binding.mainViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-            binding.mainIndicator.attachTo(binding.mainViewPager)
-        }
-    }
     /**
      * 우선, Parser가 진수원,후생관,의대까지 구현되어 있어 아침 식단 정보를 구하는 함수는 구현하지 않아 위와 같이 구성되었습니다.
      * 작업이 끝나면 처음 로딩 화면인 lottie를 Gone 상태로 만들고, 뷰 페이저를 업데이트 합니다.
      * 뷰 페이저는 메인 어뎁터에게 (아침,점심,저녁)식단을 넘겨줍니다.
      * */
 
-    private fun networkDisconnectDb(){
-        CoroutineScope(Dispatchers.Main).launch {
-            val db = Firebase.firestore
+    private suspend fun setView(){
+        foodViewModel.getFoodListLunch(currentTime, "Jinswo", "", foodViewModel)
+        foodViewModel.getFoodListLunch(currentTime, "Medical", "", foodViewModel)
+        foodViewModel.getFoodListLunch(currentTime, "Husaeng", "", foodViewModel)
+        foodViewModel.getFoodListDinner(currentTime, "Jinswo", "night", foodViewModel)
+        foodViewModel.getFoodListDinner(currentTime, "Medical", "night", foodViewModel)
 
-            db.disableNetwork().addOnCompleteListener {
-                setFoodData()
-            }
-        }
+        binding.mainViewPager.adapter =
+            MainAdapter(this@MainActivity, foodArrayBreakFast, foodArrayLunch, foodArrayDinner)
+        binding.mainViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        binding.mainIndicator.attachTo(binding.mainViewPager)
+
+        binding.lottie.visibility = View.GONE
+        binding.lottie.cancelAnimation()
     }
 
     private fun checkDb(){
         CoroutineScope(Dispatchers.Main).launch {
-            if (readUpdataDate() == "없음") {
-                setUpdataDate()
-                setFoodData()
-            } else if (readUpdataDate() == dbTime) {
-                networkDisconnectDb()
-            } else {
-                setUpdataDate()
-                setFoodData()
+            withContext(Dispatchers.IO) {
+                if(readDBInfo() != "없음") {
+                    when (readDBcalldate()) {
+                        "없음" -> {
+                            setDBcalldate()
+                        }
+                        dbTime -> {
+                            dbNetWorkDisconnect()
+                        }
+                        else -> {
+                            setDBcalldate()
+                        }
+                    }
+                }
             }
         }
     }
-    private fun setUpdataDate(){
+
+    private fun dbNetWorkDisconnect(){
         CoroutineScope(Dispatchers.Main).launch {
-            val shared = getSharedPreferences("updateDay", Context.MODE_PRIVATE)
-            val editor = shared.edit()
-            editor.putString("Date", dbTime)
-            editor.apply()
+            try {
+                withContext(Dispatchers.IO) {
+                    val db = Firebase.firestore
+                    db.disableNetwork()
+                }
+            } catch (e: java.lang.Exception) {
+            }
         }
     }
 
-    private fun readUpdataDate() : String{
-        val shared = getSharedPreferences("updateDay",Context.MODE_PRIVATE)
-        val str = shared.getString("Date","없음")
+    private fun readDBcalldate(): String? {
+        val shared = getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE)
 
-        return str.toString()
+        return shared.getString("Date", "없음")
     }
 
+    private fun readDBInfo(): String? {
+        val shared = getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE)
+
+        return shared.getString("updateInfo", "없음")
+    }
+
+    private fun setDBcalldate(){
+        CoroutineScope(Dispatchers.Main).launch {
+            withContext(Dispatchers.IO) {
+                val shared = getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE)
+                val editor = shared.edit()
+                editor.putString("Date", dbTime)
+                editor.apply()
+            }
+        }
+    }
+
+    private fun setUpdataInfo(info:String){
+        CoroutineScope(Dispatchers.Main).launch {
+            withContext(Dispatchers.IO) {
+                val shared = getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE)
+                val editor = shared.edit()
+                editor.putString("updateInfo", info)
+                editor.apply()
+            }
+        }
+    }
+
+
 }
+

@@ -46,9 +46,9 @@ class FoodListDataModel {
                         document.data!!["state"].toString()
                     )
                 }
-                foodViewModel.foodItemLunch.postValue(foodItem)
+                foodViewModel.lunchFoodItem.postValue(foodItem)
             } catch (e: Exception) {
-                foodViewModel.foodItemLunch.postValue(null)
+                foodViewModel.lunchFoodItem.postValue(null)
             }
         }
     }
@@ -85,9 +85,9 @@ class FoodListDataModel {
                         document.data!!["state"].toString()
                     )
                 }
-                foodViewModel.foodItemDinner.postValue(foodItem)
+                foodViewModel.dinnerFoodItem.postValue(foodItem)
             } catch (e: Exception) {
-                foodViewModel.foodItemDinner.postValue(null)
+                foodViewModel.dinnerFoodItem.postValue(null)
             }
         }
     }

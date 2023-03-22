@@ -9,6 +9,7 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.widget.RemoteViews
 import com.bukbob.bukbob_android.R
+import com.bukbob.bukbob_android.main_Module.MainViewModel
 
 class FoodWidgetProvider : AppWidgetProvider() {
 
@@ -21,7 +22,9 @@ class FoodWidgetProvider : AppWidgetProvider() {
 
         context?.let {
             var widgetViews = RemoteViews(context.packageName, R.layout.food_list_item_widget_view)
+            widgetViews.setTextViewText(R.id.food_market_widget,MainViewModel().position.value.toString())
             widgetViews.setTextViewText(R.id.foodList_widget,"test")
+            //이곳은 sharedPref 저장소를 사용해 구현해야함
             appWidgetManager?.updateAppWidget(appWidgetIds,widgetViews)
         }
 

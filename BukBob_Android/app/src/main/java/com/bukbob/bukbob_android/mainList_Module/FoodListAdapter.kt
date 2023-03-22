@@ -18,13 +18,10 @@ import com.bukbob.bukbob_android.main_Module.MainViewModel
  * MainAdapter의 호출에 의해 실행됩니다.
  * */
 
-class FoodListAdapter (private var foodList: ArrayList<FoodListDataModel.FoodList>, owner : MainActivity): RecyclerView.Adapter<FoodListAdapter.ViewHolder>(){
+class FoodListAdapter (private var foodList: ArrayList<FoodListDataModel.FoodList>, private val owner : MainActivity): RecyclerView.Adapter<FoodListAdapter.ViewHolder>(){
 
     private val CLICK_DELAY : Long = 250
     // 즐겨찾기 더블클릭 기능중 딜레이 시간을 관리하는 변수입니다.
-
-    private val listViewModel : MainViewModel = ViewModelProvider(owner)[MainViewModel::class.java]
-    //FoodList 위젯 클릭에 따른 true/false 값을 각 뷰 페이저마다 공유 하기위해 선언된 라이브데이터 객체 입니다.
 
     private val handler = android.os.Handler(Looper.getMainLooper())
     private val clickRunnable = Runnable {
@@ -73,7 +70,7 @@ class FoodListAdapter (private var foodList: ArrayList<FoodListDataModel.FoodLis
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        foodController = FoodListViewController(listViewModel, holder)
+        foodController = FoodListViewController(owner, holder)
         foodController.asyncStartButton(position)
         //FoodListController의 객체를 선언합니다.
         //각 페이지마다 즐겨찾기 버튼을 동기화 해주는 함수입니다.

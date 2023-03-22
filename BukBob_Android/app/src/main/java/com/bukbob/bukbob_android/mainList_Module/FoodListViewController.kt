@@ -5,14 +5,17 @@
 package com.bukbob.bukbob_android.mainList_Module
 
 import android.util.Log
+import androidx.lifecycle.ViewModelProvider
+import com.bukbob.bukbob_android.MainActivity
 import com.bukbob.bukbob_android.R
 import com.bukbob.bukbob_android.main_Module.MainViewModel
 
 
 // 해당 함수는 FoodListAdapter에 의해 호출됩니다.
-class FoodListViewController(private val listViewModel: MainViewModel, private val holder: FoodListAdapter.ViewHolder) {
+class FoodListViewController(private val owner: MainActivity, private val holder: FoodListAdapter.ViewHolder) {
 
     val menu : Array<String> = arrayOf("찌개","돌솥","특식","도시락","덮밥/비빔밥","샐러드","돈까스류","오므라이스류","오므라이스류","김밥","라면","우동")
+    private val listViewModel : MainViewModel = ViewModelProvider(owner)[MainViewModel::class.java]
 
     fun checkStarButton(position: Int){
         val isDifferentStart = isDifferentStartCheck(position)
