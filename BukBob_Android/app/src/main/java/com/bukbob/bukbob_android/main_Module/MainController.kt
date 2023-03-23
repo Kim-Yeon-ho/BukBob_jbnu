@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bukbob.bukbob_android.MainActivity
 import com.bukbob.bukbob_android.databinding.ActivityMainBinding
@@ -12,27 +13,25 @@ import com.bukbob.bukbob_android.mainList_Module.FoodListDataModel
 import com.bukbob.bukbob_android.mainList_Module.FoodListViewModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 class MainController(
-    private val mainViewModel: MainViewModel,
-    private val foodViewModel: FoodListViewModel,
     private val owner: MainActivity,
     private val binding: ActivityMainBinding,
     private val context: Context
 ) : AppCompatActivity() {
-    var foodArrayBreakFast: ArrayList<FoodListDataModel.FoodList> = ArrayList(8)
-    var foodArrayLunch: ArrayList<FoodListDataModel.FoodList> = ArrayList(8)
-    var foodArrayDinner: ArrayList<FoodListDataModel.FoodList> = ArrayList(8)
     private val currentTime: String = SimpleDateFormat("E", Locale.KOREA).format(Date())
     private val dbTime: String = SimpleDateFormat("yyyyMMdd", Locale.KOREA).format(Date())
     private val sharedPreferencesName: String = "updateInfo"
+    private val mainViewModel: MainViewModel = ViewModelProvider(owner)[MainViewModel::class.java]
+    private val foodViewModel: FoodListViewModel = ViewModelProvider(owner)[FoodListViewModel::class.java]
+    private var foodArrayBreakFast: ArrayList<FoodListDataModel.FoodList> = ArrayList(8)
+    private var foodArrayLunch: ArrayList<FoodListDataModel.FoodList> = ArrayList(8)
+    private var foodArrayDinner: ArrayList<FoodListDataModel.FoodList> = ArrayList(8)
+
 
     /**
      * 각 배열 3개는 각 식당의 아침, 점심, 저녁을 담을 배열입니다.
@@ -82,24 +81,30 @@ class MainController(
      * 위젯 버튼 클릭 유무에 따른 뷰 페이저 업데이트 함수입니다.
      * */
 
-    suspend fun setView() {
-        foodViewModel.getFoodListLunch(currentTime, "Jinswo", "", foodViewModel)
-        foodViewModel.getFoodListLunch(currentTime, "Medical", "", foodViewModel)
-        foodViewModel.getFoodListLunch(currentTime, "Husaeng", "", foodViewModel)
-        foodViewModel.getFoodListDinner(currentTime, "Jinswo", "night", foodViewModel)
-        foodViewModel.getFoodListDinner(currentTime, "Medical", "night", foodViewModel)
+    suspend fun setView() = coroutineScope {
 
-        binding.mainViewPager.adapter =
-            MainAdapter(owner, foodArrayBreakFast, foodArrayLunch, foodArrayDinner)
-        binding.mainViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-        binding.mainIndicator.attachTo(binding.mainViewPager)
+        launch {
+            withContext(Dispatchers.IO) {
+                foodViewModel.getFoodListLunch(currentTime, "Jinswo", "", foodViewModel)
+                foodViewModel.getFoodListLunch(currentTime, "Medical", "", foodViewModel)
+                foodViewModel.getFoodListLunch(currentTime, "Husaeng", "", foodViewModel)
+                foodViewModel.getFoodListDinner(currentTime, "Jinswo", "night", foodViewModel)
+                foodViewModel.getFoodListDinner(currentTime, "Medical", "night", foodViewModel)
+            }
 
-        binding.lottie.visibility = View.GONE
-        binding.lottie.cancelAnimation()
+            binding.mainViewPager.adapter =
+                MainAdapter(owner, foodArrayBreakFast, foodArrayLunch, foodArrayDinner)
+            binding.mainViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+            binding.mainIndicator.attachTo(binding.mainViewPager)
 
-        if (readDbInfo() == "없음" && foodArrayDinner.size != 0) {
-            setUpdataInfo(foodArrayDinner[0].Title)
+            binding.lottie.visibility = View.GONE
+            binding.lottie.cancelAnimation()
+
+            if (readDbInfo() == "없음" && foodArrayDinner.size != 0) {
+                setUpdateInfo(foodArrayDinner[0].Title)
+            }
         }
+
     }
 
     /**
@@ -205,7 +210,7 @@ class MainController(
      * 파이어베이스 업데이트가 끝나면 업데이트 날짜를 SharedPreferences에 기록해줍니다.
      * */
 
-    private fun setUpdataInfo(info: String) {
+    private fun setUpdateInfo(info: String) {
         CoroutineScope(Dispatchers.Main).launch {
             withContext(Dispatchers.IO) {
                 val shared =

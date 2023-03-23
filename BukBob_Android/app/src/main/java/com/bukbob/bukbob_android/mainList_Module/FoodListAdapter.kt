@@ -7,11 +7,9 @@ package com.bukbob.bukbob_android.mainList_Module
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bukbob.bukbob_android.MainActivity
 import com.bukbob.bukbob_android.databinding.FoodListItemViewBinding
-import com.bukbob.bukbob_android.main_Module.MainViewModel
 
 /**
  * 해당 어댑터는 음식 식단 리스트를 출력해주는 어댑터입니다.
@@ -69,29 +67,28 @@ class FoodListAdapter (private var foodList: ArrayList<FoodListDataModel.FoodLis
     //FoodList 사이즈만큼 리스트를 생성합니다.
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
         foodController = FoodListViewController(owner, holder)
-        foodController.asyncStartButton(position)
         //FoodListController의 객체를 선언합니다.
-        //각 페이지마다 즐겨찾기 버튼을 동기화 해주는 함수입니다.
 
-        foodController.setFoodList(foodList[position].Title,foodList[position].List)
+        val title = foodList[position].Title
+        var isSave = foodController.checkPref(title)
 
+        foodController.setFoodList(title, foodList[position].List)
 
         holder.binding.widgetButton.setOnClickListener {
-            foodController.checkStarButton(position)
+            foodController.setButton(position,title,isSave)
         }
 
         /**
          * 위젯버튼 클릭 이벤트를 처리합니다.
          * */
 
-        holder.binding.foodItemBox.setOnClickListener{
+        holder.binding.foodItemBox.setOnClickListener {
             doubleClickCounter++
-            when(doubleClickCounter){
-                1 -> handler.postDelayed(clickRunnable,CLICK_DELAY)
+            when (doubleClickCounter) {
+                1 -> handler.postDelayed(clickRunnable, CLICK_DELAY)
                 2 -> {
-                    foodController.checkStarButton(position)
+                    foodController.checkStarButton(position, title)
                     doubleClickCounter = 0
                 }
             }
