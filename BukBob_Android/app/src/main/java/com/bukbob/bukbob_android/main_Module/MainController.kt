@@ -1,3 +1,7 @@
+/**
+ * 2023 / 03 / 24 LeeJungHwan 작성
+ * */
+
 package com.bukbob.bukbob_android.main_Module
 
 import android.annotation.SuppressLint
@@ -12,6 +16,7 @@ import com.bukbob.bukbob_android.databinding.ActivityMainBinding
 import com.bukbob.bukbob_android.mainList_Module.FoodListDataModel
 import com.bukbob.bukbob_android.mainList_Module.FoodListViewModel
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
@@ -73,7 +78,7 @@ class MainController(
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateFoodList(binding: ActivityMainBinding) {
-        binding.mainViewPager.adapter?.notifyDataSetChanged()
+        binding.mainViewPager.adapter?.let{it.notifyDataSetChanged()}
     }
 
     /**
@@ -226,5 +231,6 @@ class MainController(
      * setUpdataInfo()?
      * 파이어베이스 업데이트가 끝나면 2차 확인을 위해 업데이트 정보를 기록합니다.
      * */
+
 
 }

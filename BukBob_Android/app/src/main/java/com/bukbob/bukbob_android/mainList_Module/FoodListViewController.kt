@@ -4,11 +4,14 @@
 
 package com.bukbob.bukbob_android.mainList_Module
 
+import android.appwidget.AppWidgetManager
 import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import com.bukbob.bukbob_android.MainActivity
 import com.bukbob.bukbob_android.R
 import com.bukbob.bukbob_android.main_Module.MainViewModel
+import com.bukbob.bukbob_android.widget_Module.FoodWidgetProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,12 +24,12 @@ class FoodListViewController(owner: MainActivity, private val holder: FoodListAd
     private val listViewModel : MainViewModel = ViewModelProvider(owner)[MainViewModel::class.java]
     private val checkName = checkTitleSave()
 
-    fun checkStarButton(position: Int,foodMarketName: String){
+    fun checkStarButton(position: Int,foodMarketName: String, state: String){
         val isDifferentStart = isDifferentStartCheck(position)
         listViewModel.setPosition(position)
 
         if(isDifferentStart){
-            setStartButtonState(foodMarketName)
+            setStartButtonState(foodMarketName, state)
         }else{
             listViewModel.setIsCheck(true)
             holder.binding.widgetButton.setImageResource(R.drawable.starfill)
@@ -43,11 +46,12 @@ class FoodListViewController(owner: MainActivity, private val holder: FoodListAd
      * 두번째로 다른 위치의 위젯 즐겨찾기 버튼을 눌렀을 때 라이브 데이터를 변경하고 클릭한 버튼을 즐겨찾기 처리합니다.
      * */
 
-    private fun setStartButtonState(foodMarketName: String){
+    private fun setStartButtonState(foodMarketName: String, state: String){
         if(listViewModel.isButtonCheck.value == false){
             holder.binding.widgetButton.setImageResource(R.drawable.starfill)
             listViewModel.setIsCheck(true)
             editTitlePref(foodMarketName)
+            editStatePref(state)
         }else{
             holder.binding.widgetButton.setImageResource(R.drawable.starnonfill)
             listViewModel.setIsCheck(false)
@@ -62,13 +66,13 @@ class FoodListViewController(owner: MainActivity, private val holder: FoodListAd
      * 다른 위치의 버튼을 클릭한 것인지 분기가 정해지고 같은 위치의 버튼을 클릭 했을때 처리해주는 함수입니다.
      * */
 
-    fun setButton(position: Int,title: String,isSave : Boolean){
+    fun setButton(position: Int,title: String,isSave : Boolean, state: String){
         if(isSave){
             listViewModel.setIsCheck(true)
             listViewModel.setPosition(position)
-            setStartButtonState(title)
+            setStartButtonState(title,state)
         }else{
-            checkStarButton(position, title)
+            checkStarButton(position, title, state)
         }
     }
 
@@ -98,12 +102,34 @@ class FoodListViewController(owner: MainActivity, private val holder: FoodListAd
             val edit = saveTitle.edit()
             edit.putString("title", foodMarketName)
             edit.apply()
+
+            val widgetProvider = FoodWidgetProvider()
+            val widgetUpdateIntent = Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE)
+            widgetProvider.onReceive(holder.binding.root.context,widgetUpdateIntent)
+
         }
     }
 
     /**
-     * saveCheckTitle()?
+     * editTitlePref()?
      * 해당 함수는 사용자가 즐겨찾기한 항목을 pref에 저장힙니다.
+     * 또한, 사용자가 즐겨찾기한 항목을 위젯에 반영하여 최신 버전으로 업데이트 하기 위해
+     * 브로드 캐스트 리시버를 사용해 업데이트를 호출합니다.
+     * */
+
+    private fun editStatePref(state : String){
+        CoroutineScope(Dispatchers.IO).launch{
+            val saveState =
+                holder.binding.root.context.getSharedPreferences("checkState", Context.MODE_PRIVATE)
+            val edit = saveState.edit()
+            edit.putString("state", state)
+            edit.apply()
+        }
+    }
+
+    /**
+     * editStatePref()?
+     * 해당 함수는 사용자가 즐겨찾기한 항목의 아침/점심/저녁 상태를 pref에 저장힙니다.
      * */
 
     private fun delCheckTitle(){

@@ -1,5 +1,5 @@
 /**
- * 2023 / 03 / 15 LeeJungHwan 작성
+ * 2023 / 03 / 24 LeeJungHwan 작성
  * */
 
 package com.bukbob.bukbob_android.mainList_Module
@@ -71,12 +71,13 @@ class FoodListAdapter (private var foodList: ArrayList<FoodListDataModel.FoodLis
         //FoodListController의 객체를 선언합니다.
 
         val title = foodList[position].Title
+        val state = foodList[position].state
         var isSave = foodController.checkPref(title)
 
         foodController.setFoodList(title, foodList[position].List)
 
         holder.binding.widgetButton.setOnClickListener {
-            foodController.setButton(position,title,isSave)
+            foodController.setButton(position,title,isSave,state)
         }
 
         /**
@@ -88,7 +89,7 @@ class FoodListAdapter (private var foodList: ArrayList<FoodListDataModel.FoodLis
             when (doubleClickCounter) {
                 1 -> handler.postDelayed(clickRunnable, CLICK_DELAY)
                 2 -> {
-                    foodController.checkStarButton(position, title)
+                    foodController.checkStarButton(position, title,state)
                     doubleClickCounter = 0
                 }
             }

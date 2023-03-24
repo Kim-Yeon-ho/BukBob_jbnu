@@ -6,10 +6,10 @@ package com.bukbob.bukbob_android.widget_Module
 
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
+import android.content.ComponentName
 import android.content.Context
-import android.widget.RemoteViews
-import com.bukbob.bukbob_android.R
-import com.bukbob.bukbob_android.main_Module.MainViewModel
+import android.content.Intent
+import kotlinx.coroutines.*
 
 class FoodWidgetProvider : AppWidgetProvider() {
 
@@ -19,24 +19,38 @@ class FoodWidgetProvider : AppWidgetProvider() {
         appWidgetIds: IntArray?
     ) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
+        val widgetController = context?.let { FoodWidgetController(it,appWidgetManager,appWidgetIds) }
 
         context?.let {
-            var widgetViews = RemoteViews(context.packageName, R.layout.food_list_item_widget_view)
-            widgetViews.setTextViewText(R.id.food_market_widget,MainViewModel().position.value.toString())
-            widgetViews.setTextViewText(R.id.foodList_widget,"test")
-            //이곳은 sharedPref 저장소를 사용해 구현해야함
-            appWidgetManager?.updateAppWidget(appWidgetIds,widgetViews)
+            CoroutineScope(Dispatchers.Main).launch {
+                widgetController!!.setFoodList()
+            }
         }
-
-        /**
-         * 해당 코드는 위젯의 업데이트를 담당하는 함수입니다.
-         * views 변수에는 RemoteViews를 사용한 View의 변화를 지원한다.
-         * views에서 setTextViewText(해당 레이아웃, "텍스트 값")을 사용하여 식단을 변경한다.
-         * appWidgetManager는 업데이트 된 뷰를 적용해줍니다.
-         *
-         * 해당 코드는 30분 단위로 진행됩니다.
-         * 해당 코드는 인터넷 연결 또는 DB가 없을때에 대한 예외 처리를 해야합니다.
-         * */
-
     }
+
+    /**
+     * onUpdate()?
+     * 위젯에서 업데이트가 일어날 때 발생할 이벤트를 정의한 함수입니다.
+     * 기본적으로 식단 업데이트를 실시합니다.
+     * */
+
+    override fun onReceive(context: Context?, intent: Intent?) {
+        super.onReceive(context, intent)
+
+        val appWidgetManager = AppWidgetManager.getInstance(context)
+        val appWidgetIds = appWidgetManager.getAppWidgetIds(ComponentName(context!!,FoodWidgetProvider::class.java))
+        val widgetController = context?.let { FoodWidgetController(it,appWidgetManager,appWidgetIds) }
+
+        CoroutineScope(Dispatchers.Main).launch {
+            widgetController!!.setFoodList()
+        }
+    }
+
+    /**
+     * onReceive()?
+     * 사용자가 지정한 식당 즐겨찾기 내용을 바로 반영해주기 위해 설정한 Receive함수입니다.
+     * 브로드캐스트 방식으로 인텐트를 전달하여 호출합니다.
+     * */
+
+
 }

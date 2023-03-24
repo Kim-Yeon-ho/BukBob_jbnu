@@ -1,10 +1,13 @@
+/**
+ * 2023 / 03 / 24 LeeJungHwan 작성
+ * */
+
 package com.bukbob.bukbob_android.mainList_Module
 
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 
 
 class FoodListDataModel {
@@ -54,6 +57,7 @@ class FoodListDataModel {
     }
 
     /**
+     * requestFoodListLunch()?
      * 각 식당의 점심 식단 리스트를 받아오는 함수입니다.
      * 코루틴이 적용되었습니다.
      * */
@@ -93,6 +97,7 @@ class FoodListDataModel {
     }
 
     /**
+     * requestFoodListDinner()?
      * 각 식당의 저녁 식단 리스트를 받아오는 함수입니다.
      * 코루틴이 적용되었습니다.
      * */
@@ -105,4 +110,9 @@ class FoodListDataModel {
             marketTitle
         }
     }
+
+    /**
+     * checkNight()?
+     * 식단표의 저녁 유무를 확인해줍니다.
+     * */
 }

@@ -1,5 +1,5 @@
 /**
- * 2023 / 03 / 15 LeeJungHwan 작성
+ * 2023 / 03 / 24 LeeJungHwan 작성
  * */
 
 package com.bukbob.bukbob_android
@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val mainController = MainController(this,binding,applicationContext)
+        val mainController = MainController(this, binding, applicationContext)
 
         CoroutineScope(Dispatchers.Main).launch {
             withContext(Dispatchers.IO) {
