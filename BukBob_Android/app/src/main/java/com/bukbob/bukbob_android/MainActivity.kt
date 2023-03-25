@@ -34,7 +34,11 @@ class MainActivity : AppCompatActivity() {
                 mainController.setView()
             }
         }
-
     }
+    /**
+     * 해당 생명주기에서 Observers를 먼저 선언하지 않으면 View가 그려지는 안정성이 떨어집니다.
+     * checkDB()에서 데이터베이스 캐시 사용 유/무를 결정하고
+     * 이후 View()를 그려주는 함수를 호출합니다.
+     * */
 }
 

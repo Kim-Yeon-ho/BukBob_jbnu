@@ -77,7 +77,7 @@ class MainController(
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateFoodList(binding: ActivityMainBinding) {
-        binding.mainViewPager.adapter?.let{it.notifyDataSetChanged()}
+        binding.mainViewPager.adapter?.notifyDataSetChanged()
     }
 
     /**
@@ -86,7 +86,6 @@ class MainController(
      * */
 
     suspend fun setView() {
-
         CoroutineScope(Dispatchers.Main) .launch{
             val getViewDB = async {
                     foodViewModel.getFoodListLunch(currentTime, "Jinswo", "", foodViewModel)

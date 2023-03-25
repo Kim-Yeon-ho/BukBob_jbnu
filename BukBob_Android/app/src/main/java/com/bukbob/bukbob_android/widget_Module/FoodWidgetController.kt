@@ -23,13 +23,16 @@ class FoodWidgetController(private val context: Context, private val appWidgetMa
     private val date = SimpleDateFormat("E", Locale.KOREA).format(Date())
     private val today = SimpleDateFormat("yyyyMMdd", Locale.KOREA).format(Date())
     private val pref: SharedPreferences = context.getSharedPreferences("checkTitle", Context.MODE_PRIVATE)
+    private val prefKey = "title"
     private val menu : Array<String> = arrayOf("찌개","돌솥","특식","도시락","덮밥/비빔밥","샐러드","돈까스류","오므라이스류","오므라이스류1","김밥","라면","우동")
 
     /**
      * widgetViews => 위젯을 컨트롤 하기 위한 리모트 뷰 객체 입니다.
      * title => 사용자가 즐겨찾기를 추가한 식당의 이름 변수 입니다.
-     * date => 현재 핸드폰의 시간 정보 입니다.
+     * today => 현재 핸드폰의 날짜 정보 입니다.
+     * date => 현재 핸드폰의 요일 정보 입니다.
      * pref => checkTitle이라는 이름의 pref를 제어하기 위한 객체 입니다.
+     * prefKey => pref.getString()함수에서 공통으로 사용되는 key값입니다. 단, getSharedPreferences("updateInfo",..) 함수에서 사용되는 key는 아닙니다.
      * */
 
 
@@ -56,10 +59,10 @@ class FoodWidgetController(private val context: Context, private val appWidgetMa
      * */
 
     private fun getPrefTitle() : String? {
-        return if (pref.getString("title", "없음") == "없음"){
+        return if (pref.getString(prefKey, "없음") == "없음"){
             "진수원"
         }else{
-            pref.getString("title", "없음")
+            pref.getString(prefKey, "없음")
         }
     }
 
@@ -93,6 +96,8 @@ class FoodWidgetController(private val context: Context, private val appWidgetMa
      *
      * 위젯의 정보를 설정하기 위해서 기존 파이어베이스 인터넷 사용 여부를 조정 하여 캐시 사용 또는 업데이트를 조정 합니다.
      * 그날 받아온 최신 식단 캐시 정보를 유지해 줍니다.
+     *
+     * 차후 이곳에 시간에 따라 아침,점심,저녁을 분기하는 구간을 추가해야합니다.
      * */
 
     private fun setDB(collectionName: String,db : FirebaseFirestore){
