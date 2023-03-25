@@ -7,6 +7,7 @@ package com.bukbob.bukbob_android.mainList_Module
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
+import android.text.Html
 import androidx.lifecycle.ViewModelProvider
 import com.bukbob.bukbob_android.MainActivity
 import com.bukbob.bukbob_android.R
@@ -169,7 +170,7 @@ class FoodListViewController(owner: MainActivity, private val holder: FoodListAd
                 foodText += it.toString().replace("&amp;", "").replace("&nbsp;", "") + '\n'
             }
             holder.binding.foodMarket.text = foodMarketName
-            holder.binding.FoodList.text = foodText
+            holder.binding.FoodList.text = foodText.substring(0,foodText.length-1)
         }
     }
 
@@ -184,15 +185,16 @@ class FoodListViewController(owner: MainActivity, private val holder: FoodListAd
         var foodText = ""
         foodListArray.forEach {
             if(it !="" && it != ",") {
-                foodText += "${menu[menuIndex]} \n${it.replace("&amp;", "").replace("&nbsp;", "")}" + "\n\n"
+                foodText += "<b>${menu[menuIndex]}</b> <br>${it.replace("&amp;", "").replace("&nbsp;", "")}" + "<br><br>"
                 menuIndex++
             }else if(it == ","){
-                foodText += "${menu[menuIndex]} \n운영없음" + "\n\n"
+                foodText += "<b>${menu[menuIndex]}</b> <br>운영없음" + "<br><br>"
+                menuIndex++
             }
         }
 
         holder.binding.foodMarket.text = foodMarketName
-        holder.binding.FoodList.text = foodText
+        holder.binding.FoodList.text = Html.fromHtml(foodText.substring(0,foodText.length-2),Html.FROM_HTML_MODE_LEGACY)
     }
 
     /**

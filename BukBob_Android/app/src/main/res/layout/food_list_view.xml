@@ -52,6 +52,7 @@
         android:id="@+id/FoodListView"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
+        android:overScrollMode="never"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

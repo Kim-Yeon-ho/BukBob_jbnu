@@ -13,7 +13,6 @@ import kotlinx.coroutines.*
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
     /**
      * binding은 ViewBinding을 위해 선언한 변수입니다.
      * */
@@ -25,17 +24,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val mainController = MainController(this, binding, applicationContext)
+        mainController.setObservers()
 
         CoroutineScope(Dispatchers.Main).launch {
-            withContext(Dispatchers.IO) {
+            val callDB = async {
                 mainController.checkDb()
             }
-            mainController.setObservers()
-            mainController.setView()
+            callDB.await().let {
+                mainController.setView()
+            }
         }
 
     }
-
-
 }
 

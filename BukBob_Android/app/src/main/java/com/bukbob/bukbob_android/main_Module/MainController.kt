@@ -16,7 +16,6 @@ import com.bukbob.bukbob_android.databinding.ActivityMainBinding
 import com.bukbob.bukbob_android.mainList_Module.FoodListDataModel
 import com.bukbob.bukbob_android.mainList_Module.FoodListViewModel
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
@@ -86,30 +85,31 @@ class MainController(
      * 위젯 버튼 클릭 유무에 따른 뷰 페이저 업데이트 함수입니다.
      * */
 
-    suspend fun setView() = coroutineScope {
+    suspend fun setView() {
 
-        launch {
-            withContext(Dispatchers.IO) {
-                foodViewModel.getFoodListLunch(currentTime, "Jinswo", "", foodViewModel)
-                foodViewModel.getFoodListLunch(currentTime, "Medical", "", foodViewModel)
-                foodViewModel.getFoodListLunch(currentTime, "Husaeng", "", foodViewModel)
-                foodViewModel.getFoodListDinner(currentTime, "Jinswo", "night", foodViewModel)
-                foodViewModel.getFoodListDinner(currentTime, "Medical", "night", foodViewModel)
-            }
+        CoroutineScope(Dispatchers.Main) .launch{
+            val getViewDB = async {
+                    foodViewModel.getFoodListLunch(currentTime, "Jinswo", "", foodViewModel)
+                    foodViewModel.getFoodListLunch(currentTime, "Medical", "", foodViewModel)
+                    foodViewModel.getFoodListLunch(currentTime, "Husaeng", "", foodViewModel)
+                    foodViewModel.getFoodListDinner(currentTime, "Jinswo", "night", foodViewModel)
+                    foodViewModel.getFoodListDinner(currentTime, "Medical", "night", foodViewModel)
+                }
 
-            binding.mainViewPager.adapter =
-                MainAdapter(owner, foodArrayBreakFast, foodArrayLunch, foodArrayDinner)
-            binding.mainViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-            binding.mainIndicator.attachTo(binding.mainViewPager)
+            getViewDB.await().let {
+                binding.mainViewPager.adapter =
+                    MainAdapter(owner, foodArrayBreakFast, foodArrayLunch, foodArrayDinner)
+                binding.mainViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+                binding.mainIndicator.attachTo(binding.mainViewPager)
 
-            binding.lottie.visibility = View.GONE
-            binding.lottie.cancelAnimation()
+                binding.lottie.visibility = View.GONE
+                binding.lottie.cancelAnimation()
 
-            if (readDbInfo() == "없음" && foodArrayDinner.size != 0) {
-                setUpdateInfo(foodArrayDinner[0].Title)
+                if (readDbInfo() == "없음" && foodArrayDinner.size != 0) {
+                    setUpdateInfo(foodArrayDinner[0].Title)
+                }
             }
         }
-
     }
 
     /**
@@ -157,6 +157,7 @@ class MainController(
     }
 
     /**
+     * dbNetWorkDisconnect()?
      * 파이어베이스의 인터넷을 차단합니다.
      * 파이어베이스 특성상 인터넷이 작동하지 않을경우 로컬 캐시 데이터를 가져옵니다.
      * 이를 활용해 기존 캐시 데이터로 식단을 설정하여 서버의 부하를 낮춥니다.
