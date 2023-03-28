@@ -4,6 +4,7 @@
 
 package com.bukbob.bukbob_android.main_Module
 
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,7 +15,7 @@ import com.bukbob.bukbob_android.mainList_Module.FoodListAdapter
 import com.bukbob.bukbob_android.mainList_Module.FoodListDataModel
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 class MainAdapter(private val owner: MainActivity,private var foodArrayBreakFast: ArrayList<FoodListDataModel.FoodList>,private var foodArrayLunch: ArrayList<FoodListDataModel.FoodList>,private var foodArrayDinner: ArrayList<FoodListDataModel.FoodList>): RecyclerView.Adapter<MainAdapter.PagerViewHolder>() {
     private val pageCounter = 3

@@ -52,4 +52,5 @@ dependencies {
     ////////////////////////////////////////////////////////////////////////
     implementation "com.tbuonomo:dotsindicator:4.3"
     implementation "com.airbnb.android:lottie:6.0.0"
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
 }

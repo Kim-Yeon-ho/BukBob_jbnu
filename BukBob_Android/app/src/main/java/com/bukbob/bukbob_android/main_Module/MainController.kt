@@ -6,6 +6,8 @@ package com.bukbob.bukbob_android.main_Module
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Parcelable
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -37,6 +39,7 @@ class MainController(
     private var foodArrayDinner: ArrayList<FoodListDataModel.FoodList> = ArrayList(8)
 
 
+
     /**
      * 각 배열 3개는 각 식당의 아침, 점심, 저녁을 담을 배열입니다.
      * currentTime은 현재 기기의 요일을 가져옵니다. ex.) 월
@@ -50,20 +53,23 @@ class MainController(
         }
         mainViewModel.isButtonCheck.observe(owner, mainViewModelObserver)
 
+        val foodViewModelBreakObserver = Observer<FoodListDataModel.FoodList> {
+            if (it != null && it.state != "" && !(foodArrayBreakFast.contains(it)) ) {
+                foodArrayBreakFast.add(it)
+            }
+        }
+        foodViewModel.breakFoodItem.observe(owner, foodViewModelBreakObserver)
+
         val foodViewModelLunchObserver = Observer<FoodListDataModel.FoodList> {
-            if (it != null) {
-                if (it.state != "") {
+            if (it != null && it.state != "" && !(foodArrayDinner.contains(it)) ) {
                     foodArrayLunch.add(it)
-                }
             }
         }
         foodViewModel.lunchFoodItem.observe(owner, foodViewModelLunchObserver)
 
         val foodViewModelDinnerObserver = Observer<FoodListDataModel.FoodList> {
-            if (it != null) {
-                if (it.state != "") {
-                    foodArrayDinner.add(it)
-                }
+            if (it != null && it.state != "" && !(foodArrayDinner.contains(it)) ) {
+                        foodArrayDinner.add(it)
             }
         }
         foodViewModel.dinnerFoodItem.observe(owner, foodViewModelDinnerObserver)
@@ -88,11 +94,17 @@ class MainController(
     suspend fun setView() {
         CoroutineScope(Dispatchers.Main) .launch{
             val getViewDB = async {
-                    foodViewModel.getFoodListLunch(currentTime, "Jinswo", "", foodViewModel)
-                    foodViewModel.getFoodListLunch(currentTime, "Medical", "", foodViewModel)
-                    foodViewModel.getFoodListLunch(currentTime, "Husaeng", "", foodViewModel)
-                    foodViewModel.getFoodListDinner(currentTime, "Jinswo", "night", foodViewModel)
-                    foodViewModel.getFoodListDinner(currentTime, "Medical", "night", foodViewModel)
+                    foodViewModel.getFoodList(currentTime,"Jigyeong","breakfast",foodViewModel)
+                    foodViewModel.getFoodList(currentTime,"Chame","breakfast",foodViewModel)
+                    foodViewModel.getFoodList(currentTime, "Jinswo", "lunch", foodViewModel)
+                    foodViewModel.getFoodList(currentTime, "Medical", "lunch", foodViewModel)
+                    foodViewModel.getFoodList(currentTime, "Jigyeong", "lunch", foodViewModel)
+                    foodViewModel.getFoodList(currentTime, "Chame", "lunch", foodViewModel)
+                    foodViewModel.getFoodList(currentTime, "Husaeng", "", foodViewModel)
+                    foodViewModel.getFoodList(currentTime, "Jinswo", "night", foodViewModel)
+                    foodViewModel.getFoodList(currentTime, "Medical", "night", foodViewModel)
+                    foodViewModel.getFoodList(currentTime, "Jigyeong", "night", foodViewModel)
+                    foodViewModel.getFoodList(currentTime, "Chame", "night", foodViewModel)
                 }
 
             getViewDB.await().let {

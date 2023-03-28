@@ -162,15 +162,22 @@ class FoodListViewController(owner: MainActivity, private val holder: FoodListAd
 
     fun setFoodList(foodMarketName:String, foodListArray:ArrayList<*>){
         var foodText = ""
-
-        if(foodMarketName == "후생관"){
-            setHuseangFoodList(foodMarketName, foodListArray)
-        }else {
-            foodListArray.forEach {
-                foodText += it.toString().replace("&amp;", "").replace("&nbsp;", "") + '\n'
+        when (foodMarketName) {
+            "후생관" -> {
+                setHuseangFoodList(foodMarketName, foodListArray)
             }
-            holder.binding.foodMarket.text = foodMarketName
-            holder.binding.FoodList.text = foodText.substring(0,foodText.length-1)
+            "참빛관"->{
+                setChamFoodList(foodMarketName,foodListArray)
+            }
+            else -> {
+                foodListArray.forEach {
+                    if(it.toString() != "") {
+                        foodText += it.toString().replace("&amp;", "").replace("&nbsp;", "") + '\n'
+                    }
+                }
+                holder.binding.foodMarket.text = foodMarketName
+                holder.binding.FoodList.text = foodText.substring(0,foodText.length-1)
+            }
         }
     }
 
@@ -179,9 +186,25 @@ class FoodListViewController(owner: MainActivity, private val holder: FoodListAd
      * 해당 항목은 후생관을 제외한 식단 리스트를 View에 설정하는 함수입니다.
      * */
 
+    private fun setChamFoodList(foodMarketName: String,foodList: ArrayList<*>){
+        var foodText = ""
+        foodList.forEach {
+            foodText += if(it != "" && it != "," && !(it.toString().contains('(')) && !(it.toString().contains(')'))) {
+                "${it}<br>"
+            }else if(it.toString().contains('(') && it.toString().contains(')')){
+                "<br><b>${it}</b><br>"
+            } else {
+                ""
+            }
+        }
+
+        holder.binding.foodMarket.text = foodMarketName
+        holder.binding.FoodList.text = Html.fromHtml(foodText.substring(0,foodText.length-2),Html.FROM_HTML_MODE_LEGACY)
+    }
+
     private fun setHuseangFoodList(foodMarketName: String,foodList: ArrayList<*>){
         var menuIndex = 0
-        var foodListArray = foodList[0].toString().split("</br>")
+        val foodListArray = foodList[0].toString().split("</br>")
         var foodText = ""
         foodListArray.forEach {
             if(it !="" && it != ",") {
@@ -201,7 +224,6 @@ class FoodListViewController(owner: MainActivity, private val holder: FoodListAd
      * setHuseangFoodList()?
      * 해당 함수는 후생관 식단 리스트를 설정하는 함수입니다.
      * */
-
     private fun isDifferentStartCheck(position: Int) : Boolean{
         return listViewModel.position.value == position
     }

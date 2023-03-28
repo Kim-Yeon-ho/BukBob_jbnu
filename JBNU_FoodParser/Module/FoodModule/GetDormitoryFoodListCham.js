@@ -1,9 +1,9 @@
 /***
- * 2023/03/20 (월)
+ * 2023/03/27 (월)
  * 작성자 : LeeJungHwan
  * 
  * 주의! 매번 홈페이지의 주요 태그가 변경되어 수시로 업데이트 해줘야 할 수도 있습니다.
- * '전북대학교생활협동조합 주간메뉴'사이트를 기준으로 파싱해 사용한 코드입니다.
+ * '전북대학교기숙사 주간식단표'사이트를 기준으로 파싱해 사용한 코드입니다.
  * 
  * 추가적으로 여기서 말하는 문서란 html을 말하는 것이며, html을 담은 변수를 뜻합니다.
  */
@@ -12,7 +12,7 @@ import axios from 'axios';
 import cheerio from 'cheerio';
 import EditLog from '../LoggerModule/Logger.js';
 
-const url = 'https://sobi.jbnu.ac.kr/menu/week_menu.php';
+const url = 'https://likehome.jbnu.ac.kr/home/main/inner.php?sMenu=B7200';
 // 소비자 생활협동조합 주소
 
 var allFoodList = [];
@@ -43,7 +43,7 @@ const CheckFoodUpdate = async ()=>{
     return 1;
   }
   // 60초 동안 각 호관 음식 리스트 업데이트를 대기하고 결과를 리턴합니다.
-  // 0은 이상 없음 / 1은 리스폰 타임아웃입니다.
+  // 배열 리턴은 이상없음 / 1은 리스폰 타임아웃입니다.
 }
 
 
@@ -87,7 +87,7 @@ const GetFoodHTML = async () => {
 
   try{
     GetFoodHTML().then(html => {
-      allFoodList = html.toString().replace(/(<([^>]+)>)/ig,'<br>').toString().split('<td>').toString().split(',');
+      allFoodList = html.toString().replace(/(<([^>]+)>)/ig,'<br>').split('<td>').toString().replace(/\n/igm,'').replace(/\t/igm,'').replace(/\s/igm,'').split(',');
     }).then(()=>{
       var FoodList = new Map()
       var foodItem
@@ -96,7 +96,9 @@ const GetFoodHTML = async () => {
         FoodList = {
           List : foodItem
         }
-        filterAllFoodList.push(FoodList);
+        if(foodItem != ''){
+          filterAllFoodList.push(FoodList);
+        }
       }
     }).then(()=>{
         isUpdate = true;

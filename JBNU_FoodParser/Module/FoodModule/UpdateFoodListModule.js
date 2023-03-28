@@ -22,7 +22,6 @@ const omuriceIndex = [52,53,54,55,56];
 var weeksCounter = 0;
 // for문을 사용할때 요일을 카운트 하기 위한 변수입니다.
 
-
 /**
  * 후생관
  * 20,25,30,35,40,45 월요일 샐러드까지 5 단위
@@ -41,9 +40,9 @@ var weeksCounter = 0;
 const DbFoodListUpdateStart = ((foodArr) => {
 
   try {
-    SetDbJinswoMedical(foodArr, 0, 5, 'Jinswo', '진수원', '중식');
+    SetDbJinswoMedical(foodArr, 0, 5, 'Jinswo-lunch', '진수원', '중식');
     SetDbJinswoMedical(foodArr, 5, 10, 'Jinswo-night', '진수원', '석식');
-    SetDbJinswoMedical(foodArr, 10, 15, 'Medical', '의대', '중식');
+    SetDbJinswoMedical(foodArr, 10, 15, 'Medical-lunch', '의대', '중식');
     SetDbJinswoMedical(foodArr, 15, 20, 'Medical-night', '의대', '석식');
     SetDbHusaeng(foodArr);
 
@@ -127,7 +126,7 @@ const UpdateFoodList = (()=>{
       //Response TimeOut이 발생할 경우 Array가 리턴되지 않기 때문에 해당 코드로 오류 처리가 가능합니다.
     }else {
       DbFoodListUpdateStart(foodArr);
-      EditLog('Update Complete');
+      EditLog('Update Complete Jinswo');
     }
 
   });

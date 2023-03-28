@@ -4,12 +4,18 @@
 
 package com.bukbob.bukbob_android.widget_Module
 
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
+import android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE
 import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import kotlinx.coroutines.*
+import android.widget.RemoteViews
+import com.bukbob.bukbob_android.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class FoodWidgetProvider : AppWidgetProvider() {
 
@@ -39,10 +45,10 @@ class FoodWidgetProvider : AppWidgetProvider() {
 
         val appWidgetManager = AppWidgetManager.getInstance(context)
         val appWidgetIds = appWidgetManager.getAppWidgetIds(ComponentName(context!!,FoodWidgetProvider::class.java))
-        val widgetController = context?.let { FoodWidgetController(it,appWidgetManager,appWidgetIds) }
+        val widgetController = FoodWidgetController(context,appWidgetManager,appWidgetIds)
 
         CoroutineScope(Dispatchers.Main).launch {
-            widgetController!!.setFoodList()
+            widgetController.setFoodList()
         }
     }
 

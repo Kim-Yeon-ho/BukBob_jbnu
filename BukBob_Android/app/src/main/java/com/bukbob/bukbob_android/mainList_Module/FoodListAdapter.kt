@@ -5,6 +5,7 @@
 package com.bukbob.bukbob_android.mainList_Module
 
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -66,13 +67,17 @@ class FoodListAdapter (private var foodList: ArrayList<FoodListDataModel.FoodLis
     //FoodList.size
     //FoodList 사이즈만큼 리스트를 생성합니다.
 
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         foodController = FoodListViewController(owner, holder)
         //FoodListController의 객체를 선언합니다.
 
         val title = foodList[position].Title
         val state = foodList[position].state
-        var isSave = foodController.checkPref(title)
+        val isSave = foodController.checkPref(title)
 
         foodController.setFoodList(title, foodList[position].List)
 
