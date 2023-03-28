@@ -8,23 +8,31 @@
 import SwiftUI
 
 struct MenuCardView: View {
-    @Binding var isFirstChecking: Bool
-    @Binding var isSecondChecking: Bool
-    @Binding var isThirdChecking: Bool
-    @Binding var isFourChecking: Bool
-    @Binding var indexCount: Int
-    
+    @Binding var cafeteria: Cafeteria
+    @Binding var isChecking: Bool
+
+//    @Binding var isFirstChecking: (Int,Bool) {
+//        didSet {
+//            isFirstChecking.1 ? Image("starFill").padding(.horizontal)
+//            : Image("starNonFill").padding(.horizontal)
+//        }
+//    }
+//    @Binding var isSecondChecking: (Int,Bool)
+//    @Binding var isThirdChecking: (Int,Bool)
+//    @Binding var isFourChecking: (Int,Bool)
+//    @Binding var indexCount: Int
+    //인덱스 카운트르 새서 그 순서에 있을때 자동합병, 되기로
     static var padding = 20
-
     var menu = ["맛있는 밥", "커리돈까스", "겉절이 김치", "요플레"]
-
+    
     var body: some View {
             VStack {
                 HStack {
-                    Text("진수당")
+                    Text("\(cafeteria.cafeteria[0])")
                         .font(.system(size: 25, weight: .semibold))
                         .padding(.horizontal)
                     Spacer()
+
                     isChecking ? Image("starFill").padding(.horizontal)
                     : Image("starNonFill").padding(.horizontal)
                 }//HStack
@@ -44,9 +52,7 @@ struct MenuCardView: View {
                 .stroke(Color.mainPurple, lineWidth: 5))
             .contentShape(Rectangle())
             .onTapGesture(count: 2) {
-                print("eeee")
                 isChecking.toggle()
-                
             }
     }
 }

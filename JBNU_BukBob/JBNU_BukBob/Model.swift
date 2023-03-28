@@ -7,11 +7,20 @@
 
 import Foundation
 
-class UserInfo {
-    static let shared = UserInfo()
+struct Cafeteria: Codable, Identifiable {
+    var id = UUID()
+    let cafeteria: [String]
+    let menus: [String]
+    let mealTime: String
+    //아침, 점심, 저녁
+    let time: String
+    //07:00 ~ 08:00 같은 시간
 
-    var isChecking: Bool = false
-
-    private init() {}
-
+    init(id: UUID = UUID(), cafeteria: [String], menus: [String], mealTime: String, time: String) {
+        self.id = id
+        self.cafeteria = cafeteria
+        self.menus = menus
+        self.mealTime = mealTime
+        self.time = time
+    }
 }
