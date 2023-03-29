@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 // 해당 함수는 FoodListAdapter에 의해 호출됩니다.
 class FoodListViewController(owner: MainActivity, private val holder: FoodListAdapter.ViewHolder) {
 
-    private val menu : Array<String> = arrayOf("찌개","돌솥","특식","도시락","덮밥/비빔밥","샐러드","돈까스류","오므라이스류","오므라이스류","김밥","라면","우동")
+    private val menu : Array<String> = arrayOf("찌개","돌솥","특식","도시락","덮밥/비빔밥","샐러드","돈까스류","오므라이스류0","오므라이스류","김밥","라면","우동")
     private val listViewModel : MainViewModel = ViewModelProvider(owner)[MainViewModel::class.java]
     private val checkName = checkTitleSave()
 

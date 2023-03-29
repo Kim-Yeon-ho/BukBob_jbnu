@@ -22,9 +22,7 @@ class MainViewModel : ViewModel() {
      * */
 
 
-    fun setIsCheck(isTrue : Boolean){
-        isButtonCheck.value = isTrue
-    }
+    fun setIsCheck(isTrue : Boolean){ isButtonCheck.value = isTrue }
 
     //isButtonCheck의 값을 변경합니다.
 

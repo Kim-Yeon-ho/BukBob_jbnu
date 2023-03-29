@@ -8,16 +8,18 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.SharedPreferences
 import android.text.Html
-import android.util.Log
 import android.widget.RemoteViews
 import com.bukbob.bukbob_android.R
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class FoodWidgetController(private val context: Context, private val appWidgetManager: AppWidgetManager?, private val Ids : IntArray?) {
     private var widgetViews = RemoteViews(context.packageName, R.layout.food_list_item_widget_view)
@@ -27,7 +29,8 @@ class FoodWidgetController(private val context: Context, private val appWidgetMa
     private var time = SimpleDateFormat("kk",Locale.KOREA).format(Date())
     private val pref: SharedPreferences = context.getSharedPreferences("checkTitle", Context.MODE_PRIVATE)
     private val prefKey = "title"
-    private val menu : Array<String> = arrayOf("찌개","돌솥","특식","도시락","덮밥/비빔밥","샐러드","돈까스류","오므라이스류","오므라이스류1","김밥","라면","우동")
+    private val menu : Array<String> = arrayOf("찌개","돌솥","특식","도시락","덮밥/비빔밥","샐러드","돈까스류","오므라이스류0","오므라이스류","김밥","라면","우동")
+    private var db : FirebaseFirestore? = null
 
     /**
      * widgetViews => 위젯을 컨트롤 하기 위한 리모트 뷰 객체 입니다.
@@ -40,10 +43,11 @@ class FoodWidgetController(private val context: Context, private val appWidgetMa
 
 
     private fun getDbTitle(): String? {
+
         title = try {
-            pref.getString("title", "없음")
-        }catch (e : NullPointerException){
-            "진수원"
+            pref.getString(prefKey, "없음")
+        }catch (e : Exception){
+            "없음"
         }
 
         title = when (title) {
@@ -54,6 +58,7 @@ class FoodWidgetController(private val context: Context, private val appWidgetMa
             "직영관" -> "Jigyeong"
             else -> "Jinswo"
         }
+
         return title
     }
 
@@ -80,11 +85,9 @@ class FoodWidgetController(private val context: Context, private val appWidgetMa
         checkTime()
 
         if(readDbCallDate(context) == today){
-            val db = Firebase.firestore
-            dbNetWorkDisconnect(db)
-            setDB(title,db)
+            setWidgetViewNoInternet(title)
         }else{
-            dbNetWorkConnect(title)
+            setWidgetView(title)
         }
 
     }
@@ -118,9 +121,9 @@ class FoodWidgetController(private val context: Context, private val appWidgetMa
         }
     }
 
-    private fun setDB(collectionName: String?,db : FirebaseFirestore){
+    private fun setDB(collectionName: String?,db : FirebaseFirestore?){
         var foodList: String
-        db.collection(collectionName!!).document(date).get().addOnSuccessListener {
+        db?.collection(collectionName!!)?.document(date)?.get()?.addOnSuccessListener {
             if(it.data!!["Title"] == "참빛관"){
                 setChamFoodList(it.data!!["List"] as ArrayList<*>)
             }else {
@@ -146,7 +149,7 @@ class FoodWidgetController(private val context: Context, private val appWidgetMa
                 }
                 appWidgetManager?.updateAppWidget(Ids, widgetViews)
             }
-        }.addOnFailureListener {
+        }?.addOnFailureListener {
             widgetViews.setTextViewText(
                 R.id.foodList_widget,
                 "식단 정보가 존재하지 않습니다."
@@ -165,7 +168,7 @@ class FoodWidgetController(private val context: Context, private val appWidgetMa
      * */
 
     private fun setChamFoodList(foodList: ArrayList<*>){
-        var widgetViews = RemoteViews(context.packageName, R.layout.food_list_item_widget_view2)
+        val widgetViews = RemoteViews(context.packageName, R.layout.food_list_item_widget_view2)
         var filterFoodText = ""
         var foodText1 = ""
         var foodText2 = ""
@@ -179,7 +182,7 @@ class FoodWidgetController(private val context: Context, private val appWidgetMa
                 ""
             }
         }
-        var foodArray = filterFoodText.split("<br><br><b>") as ArrayList<String>
+        val foodArray = filterFoodText.split("<br><br><b>") as ArrayList<String>
 
         foodArray[0].forEach {
             foodText1 += it.toString()
@@ -226,24 +229,17 @@ class FoodWidgetController(private val context: Context, private val appWidgetMa
         var foodText = ""
         foodListArray.forEach {
             if(it !="" && it != ",") {
+                val setFoodText = "${menu[menuIndex]} : ${it.replace("&amp;", "").replace("&nbsp;", "")}" + "\n"
+
                 when (menu[menuIndex]) {
-                    "찌개" -> foodText +=  "${menu[menuIndex]} : ${
-                        it.replace("&amp;", "").replace("&nbsp;", "")
-                    }" + "\n"
-                    "돌솥" -> foodText +=  "${menu[menuIndex]} : ${
-                        it.replace("&amp;", "").replace("&nbsp;", "")
-                    }" + "\n"
-                    "특식" -> foodText +=  "${menu[menuIndex]} : ${
-                        it.replace("&amp;", "").replace("&nbsp;", "")
-                    }" + "\n"
-                    "샐러드" -> foodText +=  "${menu[menuIndex]} : ${
-                        it.replace("&amp;", "").replace("&nbsp;", "")
-                    }" + "\n"
-                    "오므라이스류1" -> foodText +=  "오므라이스류 : ${
-                        it.replace("&amp;", "").replace("&nbsp;", "")
-                    }"
+                    "찌개" -> foodText += setFoodText
+                    "돌솥" -> foodText += setFoodText
+                    "특식" -> foodText += setFoodText
+                    "샐러드" -> foodText += setFoodText
+                    "오므라이스류" -> foodText +=  setFoodText
                 }
                 menuIndex++
+
             }else{
                 menuIndex++
             }
@@ -257,7 +253,6 @@ class FoodWidgetController(private val context: Context, private val appWidgetMa
 
     private fun readDbCallDate(context: Context): String? {
         val shared = context.getSharedPreferences("updateInfo", Context.MODE_PRIVATE)
-
         return shared.getString("Date", "없음")
     }
     /**
@@ -265,35 +260,24 @@ class FoodWidgetController(private val context: Context, private val appWidgetMa
      * 해당 함수는 사용자가 디비에서 새로운 정보를 받아왔는지 날짜를 가져오는 함수입니다.
      * */
 
-    private fun dbNetWorkDisconnect(db: FirebaseFirestore) {
-        CoroutineScope(Dispatchers.Main).launch {
-            withContext(Dispatchers.IO) {
-                db.disableNetwork()
-            }
+    private fun setWidgetView(title : String?){
+        CoroutineScope(Dispatchers.Main).launch{
+            withContext(Dispatchers.Default) {
+                db = Firebase.firestore
+                db?.enableNetwork()
+            }?.await()
+            setDB(title, db)
         }
     }
 
-    /**
-     * dbNetWorkDisconnect()?
-     * 해당 함수는 fireBase의 네트워크를 차단하는 함수입니다.
-     * 이는, 파이어베이스 자체 캐시 데이터를 사용할 수 있도록 유도합니다.
-     * */
-
-    private fun dbNetWorkConnect(title : String?){
-        CoroutineScope(Dispatchers.Main).launch {
-            val db = Firebase.firestore
-            db.enableNetwork()
-            setDB(title,db)
+    private fun setWidgetViewNoInternet(title : String?){
+        CoroutineScope(Dispatchers.Main).launch{
+            withContext(Dispatchers.Default) {
+                db = Firebase.firestore
+                db?.disableNetwork()
+            }?.await()
+            setDB(title, db)
         }
     }
-
-    /**
-     * dbNetWorkConnect()?
-     * 해당 함수는 fireBase의 네트워크를 허용하는 함수입니다.
-     * 최초에 캐시를 사용하기 위해 차단된 네트워크를 다시 허용해줍니다.
-     * */
-
-
-
 
 }

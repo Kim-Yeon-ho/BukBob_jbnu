@@ -19,7 +19,6 @@ class MainActivity : AppCompatActivity() {
      * binding은 ViewBinding을 위해 선언한 변수입니다.
      * */
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
             binding = ActivityMainBinding.inflate(layoutInflater)
@@ -33,10 +32,11 @@ class MainActivity : AppCompatActivity() {
 
             CoroutineScope(Dispatchers.Main).launch {
                 val callDB = async {
-                    mainController.checkDb()
+                    mainController.updateCheck()
                 }
                 callDB.await().let {
                     mainController.setView()
+                    mainController.updateFoodList(binding)
                 }
             }
     }

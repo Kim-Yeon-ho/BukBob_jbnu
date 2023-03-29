@@ -4,7 +4,7 @@
 
 package com.bukbob.bukbob_android.main_Module
 
-import android.os.Parcelable
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +19,6 @@ import java.util.*
 
 class MainAdapter(private val owner: MainActivity,private var foodArrayBreakFast: ArrayList<FoodListDataModel.FoodList>,private var foodArrayLunch: ArrayList<FoodListDataModel.FoodList>,private var foodArrayDinner: ArrayList<FoodListDataModel.FoodList>): RecyclerView.Adapter<MainAdapter.PagerViewHolder>() {
     private val pageCounter = 3
-
     inner class PagerViewHolder(private val binding: FoodListViewBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int) {
             setTitle(binding, position)
@@ -52,9 +51,11 @@ class MainAdapter(private val owner: MainActivity,private var foodArrayBreakFast
                     binding.FoodListView.adapter = FoodListAdapter(foodArrayDinner, owner)
             }
         }
-        //뷰 페이저 페이지 (조식,중식,석식)을 구분하여 When으로 해당 식단이 담긴 Array를 전달합니다.
     }
 
+    //뷰 페이저 페이지 (조식,중식,석식)을 구분하여 When으로 해당 식단이 담긴 Array를 전달합니다.
+
+    @SuppressLint("SetTextI18n")
     fun setTitle(binding: FoodListViewBinding, position: Int) {
         when (position) {
             0 -> {

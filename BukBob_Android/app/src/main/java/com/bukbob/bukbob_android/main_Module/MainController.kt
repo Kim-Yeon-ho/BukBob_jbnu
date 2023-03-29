@@ -6,7 +6,6 @@ package com.bukbob.bukbob_android.main_Module
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Parcelable
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -22,7 +21,6 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class MainController(
     private val owner: MainActivity,
@@ -34,11 +32,14 @@ class MainController(
     private val sharedPreferencesName: String = "updateInfo"
     private val mainViewModel: MainViewModel = ViewModelProvider(owner)[MainViewModel::class.java]
     private val foodViewModel: FoodListViewModel = ViewModelProvider(owner)[FoodListViewModel::class.java]
-    private var foodArrayBreakFast: ArrayList<FoodListDataModel.FoodList> = ArrayList(8)
-    private var foodArrayLunch: ArrayList<FoodListDataModel.FoodList> = ArrayList(8)
-    private var foodArrayDinner: ArrayList<FoodListDataModel.FoodList> = ArrayList(8)
-
-
+    private var foodArrayBreakFast: ArrayList<FoodListDataModel.FoodList> = arrayListOf()
+    private var foodArrayLunch: ArrayList<FoodListDataModel.FoodList> = arrayListOf()
+    private var foodArrayDinner: ArrayList<FoodListDataModel.FoodList> = arrayListOf()
+    private val braekFastMarketList : Array<String> = arrayOf("Jigyeong","Chame")
+    private val lunchMarketList : Array<String> = arrayOf("Jinswo", "Medical", "Jigyeong", "Chame", "Husaeng")
+    private val dinnerMarketList : Array<String> = arrayOf("Jinswo", "Medical", "Jigyeong", "Chame")
+    private val shared = context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE)
+    private val db = Firebase.firestore
 
     /**
      * 각 배열 3개는 각 식당의 아침, 점심, 저녁을 담을 배열입니다.
@@ -93,33 +94,27 @@ class MainController(
 
     suspend fun setView() {
         CoroutineScope(Dispatchers.Main) .launch{
+
             val getViewDB = async {
-                    foodViewModel.getFoodList(currentTime,"Jigyeong","breakfast",foodViewModel)
-                    foodViewModel.getFoodList(currentTime,"Chame","breakfast",foodViewModel)
-                    foodViewModel.getFoodList(currentTime, "Jinswo", "lunch", foodViewModel)
-                    foodViewModel.getFoodList(currentTime, "Medical", "lunch", foodViewModel)
-                    foodViewModel.getFoodList(currentTime, "Jigyeong", "lunch", foodViewModel)
-                    foodViewModel.getFoodList(currentTime, "Chame", "lunch", foodViewModel)
-                    foodViewModel.getFoodList(currentTime, "Husaeng", "", foodViewModel)
-                    foodViewModel.getFoodList(currentTime, "Jinswo", "night", foodViewModel)
-                    foodViewModel.getFoodList(currentTime, "Medical", "night", foodViewModel)
-                    foodViewModel.getFoodList(currentTime, "Jigyeong", "night", foodViewModel)
-                    foodViewModel.getFoodList(currentTime, "Chame", "night", foodViewModel)
+                braekFastMarketList.forEach {
+                    foodViewModel.getFoodList(currentTime,it,"breakfast",foodViewModel)
                 }
 
-            getViewDB.await().let {
-                binding.mainViewPager.adapter =
-                    MainAdapter(owner, foodArrayBreakFast, foodArrayLunch, foodArrayDinner)
-                binding.mainViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-                binding.mainIndicator.attachTo(binding.mainViewPager)
+                lunchMarketList.forEach {
+                    if(it == "Husaeng"){
+                        foodViewModel.getFoodList(currentTime, it, "", foodViewModel)
+                    }else {
+                        foodViewModel.getFoodList(currentTime, it, "lunch", foodViewModel)
+                    }
+                }
 
-                binding.lottie.visibility = View.GONE
-                binding.lottie.cancelAnimation()
-
-                if (readDbInfo() == "없음" && foodArrayDinner.size != 0) {
-                    setUpdateInfo(foodArrayDinner[0].Title)
+                dinnerMarketList.forEach {
+                    foodViewModel.getFoodList(currentTime, it, "night", foodViewModel)
                 }
             }
+
+            getViewDB.await()
+            getView()
         }
     }
 
@@ -131,21 +126,40 @@ class MainController(
      * */
 
 
+    private fun getView(){
+        binding.mainViewPager.adapter = MainAdapter(owner, foodArrayBreakFast, foodArrayLunch, foodArrayDinner)
+        binding.mainViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        binding.mainIndicator.attachTo(binding.mainViewPager)
 
-    fun checkDb() {
+        binding.lottie.visibility = View.GONE
+        binding.lottie.cancelAnimation()
+
+        editDataForVerification()
+    }
+
+    private fun editDataForVerification(){
+        CoroutineScope(Dispatchers.Default).launch {
+            if (readVerificationData() == "없음" && foodArrayDinner.size != 0) {
+                editVerificationData(foodArrayDinner[0].Title)
+            }
+        }
+    }
+
+
+    fun updateCheck() {
         CoroutineScope(Dispatchers.Main).launch {
             withContext(Dispatchers.IO) {
                 when (readDbCallDate()) {
                     "없음" -> {
-                        setDbCallDate()
+                        editDbCallDate()
                     }
                     dbTime -> {
-                        if (!(readDbInfo().equals("없음"))) {
+                        if (!(readVerificationData().equals("없음"))) {
                             dbNetWorkDisconnect()
                         }
                     }
                     else -> {
-                        setDbCallDate()
+                        editDbCallDate()
                     }
                 }
             }
@@ -161,7 +175,6 @@ class MainController(
     private fun dbNetWorkDisconnect() {
         CoroutineScope(Dispatchers.Main).launch {
             withContext(Dispatchers.IO) {
-                val db = Firebase.firestore
                 db.disableNetwork()
             }
         }
@@ -177,8 +190,6 @@ class MainController(
      * */
 
     private fun readDbCallDate(): String? {
-        val shared = context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE)
-
         return shared.getString("Date", "없음")
     }
 
@@ -188,14 +199,12 @@ class MainController(
      * 해당 변수에는 데이터 베이스 업데이트 날짜가 기록되어 있습니다.
      * */
 
-    private fun readDbInfo(): String? {
-        val shared = context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE)
-
+    private fun readVerificationData(): String? {
         return shared.getString("updateInfo", "없음")
     }
 
     /**
-     * readDbInfo()?
+     * readVerificationData()?
      * SharedPreferences에서 updateInfo라는 키 값을 가진 데이터의 정보를 읽어옵니다.
      * 해당 변수에는 데이터 베이스 업데이트 당시 받은 데이터가 들어있습니다.
      * 이는 인터넷이 불안정한 상태에서 차후 업데이트를 보장하기 위한 2차 안전장치입니다.
@@ -210,39 +219,34 @@ class MainController(
      *
      * */
 
-    private fun setDbCallDate() {
-        CoroutineScope(Dispatchers.Main).launch {
-            withContext(Dispatchers.IO) {
-                val shared =
-                    context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE)
-                val editor = shared.edit()
-                editor.putString("Date", dbTime)
-                editor.apply()
-            }
-        }
+    private fun editDbCallDate() {
+        editData("Date",dbTime)
     }
 
     /**
-     * setDbCallDate()?
+     * editDbCallDate()?
      * 파이어베이스 업데이트가 끝나면 업데이트 날짜를 SharedPreferences에 기록해줍니다.
      * */
 
-    private fun setUpdateInfo(info: String) {
+    private fun editVerificationData(info: String) {
+        editData("updateInfo",info)
+    }
+    /**
+     * editVerificationData()?
+     * 파이어베이스 업데이트가 끝나면 2차 확인을 위해 업데이트 정보를 기록합니다.
+     * */
+
+    private fun editData(key : String,value : String){
         CoroutineScope(Dispatchers.Main).launch {
             withContext(Dispatchers.IO) {
                 val shared =
                     context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE)
                 val editor = shared.edit()
-                editor.putString("updateInfo", info)
+                editor.putString(key, value)
                 editor.apply()
             }
         }
     }
-
-    /**
-     * setUpdataInfo()?
-     * 파이어베이스 업데이트가 끝나면 2차 확인을 위해 업데이트 정보를 기록합니다.
-     * */
 
 
 }

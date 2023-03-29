@@ -5,7 +5,6 @@
 package com.bukbob.bukbob_android.mainList_Module
 
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -49,12 +48,7 @@ class FoodListAdapter (private var foodList: ArrayList<FoodListDataModel.FoodLis
     inner class ViewHolder(val binding: FoodListItemViewBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
-        val binding = FoodListItemViewBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
+        val binding = FoodListItemViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         return ViewHolder(binding)
     }
