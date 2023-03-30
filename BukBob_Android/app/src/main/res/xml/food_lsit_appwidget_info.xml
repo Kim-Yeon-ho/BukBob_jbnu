@@ -3,7 +3,7 @@
     android:targetCellHeight="2"
     android:targetCellWidth="3"
     android:updatePeriodMillis="3600000"
-    android:previewImage="@drawable/starnonfill"
+    android:previewImage="@drawable/preview32"
     android:initialLayout="@layout/food_list_item_widget_view"
     android:resizeMode="horizontal |vertical"
     >

@@ -6,7 +6,6 @@ package com.bukbob.bukbob_android.main_Module
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
