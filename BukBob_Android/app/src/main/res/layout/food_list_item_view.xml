@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/foodItemBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/food_list_item_line"
@@ -22,13 +23,13 @@
 
             <TextView
                 android:id="@+id/food_market"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
                 android:layout_weight="2"
-                android:text="진수당"
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="25sp"
                 android:textStyle="bold" />
@@ -38,8 +39,9 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
                 android:background="@android:color/transparent"
+                android:contentDescription="widgetButton"
                 android:src="@drawable/starnonfill" />
 
         </LinearLayout>
@@ -48,12 +50,12 @@
             android:id="@+id/FoodList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
             android:layout_marginBottom="15dp"
-            android:text="맛있는 밥 \n커리 돈까스 \n겉절이 김치 \n요플레"
+            android:lineSpacingExtra="3dp"
+            android:text=""
             android:textColor="@color/black" />
 
     </LinearLayout>
-
 </LinearLayout>
