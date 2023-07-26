@@ -26,7 +26,7 @@
 		10B8FDB629BEC54900E4457F /* BukBobWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 10B8FDB229BEC54800E4457F /* BukBobWidget.intentdefinition */; };
 		10B8FDB729BEC54900E4457F /* BukBobWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 10B8FDB229BEC54800E4457F /* BukBobWidget.intentdefinition */; };
 		10B8FDBA29BEC54900E4457F /* BukBobWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 10B8FDA529BEC54800E4457F /* BukBobWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		10B8FDC029C3654A00E4457F /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B8FDBF29C3654A00E4457F /* Model.swift */; };
+		10B8FDC029C3654A00E4457F /* Cafeteria.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B8FDBF29C3654A00E4457F /* Cafeteria.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,7 +74,7 @@
 		10B8FDB229BEC54800E4457F /* BukBobWidget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = BukBobWidget.intentdefinition; sourceTree = "<group>"; };
 		10B8FDB329BEC54900E4457F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		10B8FDB529BEC54900E4457F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		10B8FDBF29C3654A00E4457F /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		10B8FDBF29C3654A00E4457F /* Cafeteria.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cafeteria.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,7 +127,7 @@
 				10B8FD8B29BD9C2700E4457F /* Persistence.swift */,
 				10B8FD8D29BD9C2700E4457F /* JBNU_BukBob.xcdatamodeld */,
 				10B8FD8829BD9C2700E4457F /* Preview Content */,
-				10B8FDBF29C3654A00E4457F /* Model.swift */,
+				10B8FDBF29C3654A00E4457F /* Cafeteria.swift */,
 			);
 			path = JBNU_BukBob;
 			sourceTree = "<group>";
@@ -286,7 +286,7 @@
 				10B8FD8529BD9C2600E4457F /* ContentView.swift in Sources */,
 				10B8FD8329BD9C2600E4457F /* JBNU_BukBobApp.swift in Sources */,
 				10B8FD9829BD9D5700E4457F /* MainView.swift in Sources */,
-				10B8FDC029C3654A00E4457F /* Model.swift in Sources */,
+				10B8FDC029C3654A00E4457F /* Cafeteria.swift in Sources */,
 				10B8FD8F29BD9C2700E4457F /* JBNU_BukBob.xcdatamodeld in Sources */,
 				10B8FD9A29BDA62400E4457F /* MenuCardView.swift in Sources */,
 				10B8FD9E29BDA87800E4457F /* Static.swift in Sources */,

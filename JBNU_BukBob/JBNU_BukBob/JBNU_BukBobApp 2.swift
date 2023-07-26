@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct JBNU_BukBobApp: App {
     let persistenceController = PersistenceController.shared
+
     var body: some Scene {
         WindowGroup {
             MainView()
