@@ -8,18 +8,17 @@
 import SwiftUI
 
 struct MainView: View {
-    @State var isChecking: Bool = false
     @State var indexCount: Int = 0
-    var cafeterias = Cafeterias(cafeteria: nil, menus: nil, mealTime: nil, time: nil)
+    var cafeterias = Cafeterias(cafeteria: nil, menus: nil, mealTime: nil, time: nil, isBookmarked: false)
     //cafeteria 타입으로 변수 선언
 
     var body: some View {
         TabView {
-            BreakfastView(isChecking: $isChecking, indexCount: $indexCount)
+            BreakfastView(indexCount: $indexCount)
 
-            LunchView(isChecking: $isChecking, indexCount: $indexCount)
+            LunchView(indexCount: $indexCount)
 
-            DinnerView(isChecking: $isChecking, indexCount: $indexCount)
+            DinnerView(indexCount: $indexCount)
         }
         .tabViewStyle(PageTabViewStyle())
         .onAppear {
@@ -34,12 +33,11 @@ struct MainView: View {
 }
 
 struct BreakfastView: View {
-    @Binding var isChecking: Bool
     @Binding var indexCount: Int
     var body: some View {
         VStack {
             HStack {
-                Text("조식")
+                Text("\(MealTime.allCases[indexCount].rawValue)")
                     .font(.system(size: 50, weight: .semibold))
                     .foregroundColor(.mainPurple)
                     .padding()
@@ -57,7 +55,7 @@ struct BreakfastView: View {
             } //HStack
             List() {
                 ForEach(0..<4, id: \.self) { index in
-                    MenuCardView(isChecking: $isChecking, indexCount: $indexCount)
+                    MenuCardView(indexCount: $indexCount)
                         .frame(height: DeviceFrame.screenHeight * 0.17)
                 }
             }.frame(height: DeviceFrame.screenHeight * 0.6)
@@ -66,7 +64,6 @@ struct BreakfastView: View {
 }
 
 struct LunchView: View {
-    @Binding var isChecking: Bool
     @Binding var indexCount: Int
     var body: some View {
         VStack {
@@ -89,7 +86,7 @@ struct LunchView: View {
             } //HStack
             List() {
                 ForEach(0..<4, id: \.self) { index in
-                    MenuCardView(isChecking: $isChecking, indexCount: $indexCount)
+                    MenuCardView(indexCount: $indexCount)
                         .frame(height: DeviceFrame.screenHeight * 0.16)
                         .padding()
                 }
@@ -99,7 +96,6 @@ struct LunchView: View {
 }
 
 struct DinnerView: View {
-    @Binding var isChecking: Bool
     @Binding var indexCount: Int
     var body: some View {
         VStack {
@@ -122,7 +118,7 @@ struct DinnerView: View {
             } //HStack
             List() {
                 ForEach(0..<4, id: \.self) { index in
-                    MenuCardView(isChecking: $isChecking, indexCount: $indexCount)
+                    MenuCardView(indexCount: $indexCount)
                         .frame(height: DeviceFrame.screenHeight * 0.16)
                         .padding()
                 }

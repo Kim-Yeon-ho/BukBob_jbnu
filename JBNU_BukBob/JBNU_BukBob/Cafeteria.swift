@@ -7,12 +7,13 @@
 
 import Foundation
 
-struct Cafeterias: Identifiable {
+class Cafeterias: Identifiable {
     var id = UUID()
     var cafeteria: String?
     var menus: [String]?
     var mealTime: String?
     var time: String?
+    var isBookmarked: Bool
 }
 
 enum Cafeteria: String, CaseIterable {
@@ -22,9 +23,9 @@ enum Cafeteria: String, CaseIterable {
 }
 
 enum MealTime: String, CaseIterable {
-    case breakfast = "아침"
-    case lunch = "점심"
-    case dinner = "저녁"
+    case breakfast = "조식"
+    case lunch = "중식"
+    case dinner = "석식"
 }
 
 enum Time: String, CaseIterable {

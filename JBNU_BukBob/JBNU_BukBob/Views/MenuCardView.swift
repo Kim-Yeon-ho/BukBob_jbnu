@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct MenuCardView: View {
-    @Binding var isChecking: Bool
-    var cafeteria: Cafeterias = Cafeterias(cafeteria: nil, menus: nil, mealTime: nil, time: nil)
+    var cafeteria: Cafeterias = Cafeterias(cafeteria: nil, menus: nil, mealTime: nil, time: nil, isBookmarked: false)
 //    @Binding var isFirstChecking: (Int,Bool) {
 //        didSet {
 //            isFirstChecking.1 ? Image("starFill").padding(.horizontal)
@@ -32,7 +31,7 @@ struct MenuCardView: View {
                         .padding(.horizontal)
                     Spacer()
 
-                    isChecking ? Image("starFill").padding(.horizontal)
+                    cafeteria.isBookmarked ? Image("starFill").padding(.horizontal)
                     : Image("starNonFill").padding(.horizontal)
                 }//HStack
                 HStack {
@@ -51,7 +50,7 @@ struct MenuCardView: View {
                 .stroke(Color.mainPurple, lineWidth: 5))
             .contentShape(Rectangle())
             .onTapGesture(count: 2) {
-                isChecking.toggle()
+                cafeteria.isBookmarked.toggle()
             }
     }
 }
