@@ -8,17 +8,21 @@
 import SwiftUI
 
 struct MainView: View {
-    @State var indexCount: Int = 0
-    var cafeterias = Cafeterias(cafeteria: nil, menus: nil, mealTime: nil, time: nil, isBookmarked: false)
-    //cafeteria 타입으로 변수 선언
-
+    private let tabViewIndex = [0,1,2]
+    var cafeterias = Cafeterias(cafeteria: nil, menus: nil, mealTime: nil, time: nil, bookmark: [nil])
     var body: some View {
         TabView {
-            BreakfastView(indexCount: $indexCount)
-
-            LunchView(indexCount: $indexCount)
-
-            DinnerView(indexCount: $indexCount)
+            ForEach(tabViewIndex, id: \.self) { index in
+                if index == 0 {
+                    MenuView(tabViewIndex: index)
+                }
+                if index == 1 {
+                    MenuView(tabViewIndex: index)
+                }
+                if index == 2 {
+                    MenuView(tabViewIndex: index)
+                }
+            }
         }
         .tabViewStyle(PageTabViewStyle())
         .onAppear {
@@ -32,12 +36,12 @@ struct MainView: View {
     }
 }
 
-struct BreakfastView: View {
-    @Binding var indexCount: Int
+struct MenuView: View {
+    var tabViewIndex: Int
     var body: some View {
         VStack {
             HStack {
-                Text("\(MealTime.allCases[indexCount].rawValue)")
+                Text("\(MealTime.allCases[tabViewIndex].rawValue)")
                     .font(.system(size: 50, weight: .semibold))
                     .foregroundColor(.mainPurple)
                     .padding()
@@ -53,76 +57,13 @@ struct BreakfastView: View {
                         .padding(.horizontal)
                 }
             } //HStack
-            List() {
+            ScrollView {
                 ForEach(0..<4, id: \.self) { index in
-                    MenuCardView(indexCount: $indexCount)
+                    MenuCardView()
                         .frame(height: DeviceFrame.screenHeight * 0.17)
                 }
             }.frame(height: DeviceFrame.screenHeight * 0.6)
-        }//VStack
-    }
-}
-
-struct LunchView: View {
-    @Binding var indexCount: Int
-    var body: some View {
-        VStack {
-            HStack {
-                Text("중식")
-                    .font(.system(size: 50, weight: .semibold))
-                    .foregroundColor(.mainPurple)
-                    .padding()
-
-                Spacer()
-                VStack {
-                    Text("03/04 토")
-                        .font(.system(size: 35, weight: .medium))
-                        .padding(.horizontal)
-
-                    Text("07:00 ~ 08:30")
-                        .font(.system(size: 20, weight: .medium))
-                        .padding(.horizontal)
-                }
-            } //HStack
-            List() {
-                ForEach(0..<4, id: \.self) { index in
-                    MenuCardView(indexCount: $indexCount)
-                        .frame(height: DeviceFrame.screenHeight * 0.16)
-                        .padding()
-                }
-            }.frame(height: DeviceFrame.screenHeight * 0.6)
-        }//VStack
-    }
-}
-
-struct DinnerView: View {
-    @Binding var indexCount: Int
-    var body: some View {
-        VStack {
-            HStack {
-                Text("석식")
-                    .font(.system(size: 50, weight: .semibold))
-                    .foregroundColor(.mainPurple)
-                    .padding()
-
-                Spacer()
-                VStack {
-                    Text("03/04 토")
-                        .font(.system(size: 35, weight: .medium))
-                        .padding(.horizontal)
-
-                    Text("07:00 ~ 08:30")
-                        .font(.system(size: 20, weight: .medium))
-                        .padding(.horizontal)
-                }
-            } //HStack
-            List() {
-                ForEach(0..<4, id: \.self) { index in
-                    MenuCardView(indexCount: $indexCount)
-                        .frame(height: DeviceFrame.screenHeight * 0.16)
-                        .padding()
-                }
-            }.frame(height: DeviceFrame.screenHeight * 0.6)
+                .padding(.horizontal)
         }//VStack
     }
 }

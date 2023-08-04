@@ -5,7 +5,7 @@
 //  Created by 김연호 on 2023/03/16.
 //
 
-import Foundation
+import SwiftUI
 
 class Cafeterias: Identifiable {
     var id = UUID()
@@ -13,7 +13,16 @@ class Cafeterias: Identifiable {
     var menus: [String]?
     var mealTime: String?
     var time: String?
-    var isBookmarked: Bool
+    var bookMark: [Bool?]
+
+    init(id: UUID = UUID(), cafeteria: String? = nil, menus: [String]? = nil, mealTime: String? = nil, time: String? = nil, bookmark: [Bool?]) {
+        self.id = id
+        self.cafeteria = cafeteria
+        self.menus = menus
+        self.mealTime = mealTime
+        self.time = time
+        self.bookMark = bookmark
+    }
 }
 
 enum Cafeteria: String, CaseIterable {
